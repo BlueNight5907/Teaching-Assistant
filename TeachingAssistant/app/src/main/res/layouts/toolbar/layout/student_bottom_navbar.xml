@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_height="57dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/city_lights">
+
+    </View>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottombar_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
+        app:theme="@style/AppTheme"
+        app:menu="@menu/student_bottombar_menu"
+        />
+
+</LinearLayout>

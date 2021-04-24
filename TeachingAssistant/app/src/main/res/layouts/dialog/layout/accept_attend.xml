@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="10dp">
+        <LinearLayout
+            android:paddingHorizontal="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:text="Thêm học viên"
+                android:textColor="@color/dracula_orchid"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:fontFamily="sans-serif-black">
+            </TextView>
+            <Button
+                android:id="@+id/add_all"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:text="Accept all"
+                android:textColor="@color/white"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:background="@drawable/student_state_pressed"
+                android:backgroundTint="@color/electronic_blue"/>
+        </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_student"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:paddingHorizontal="10dp"
+            android:scrollbars="vertical">
+
+        </androidx.recyclerview.widget.RecyclerView>
+        <View
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/rounded_btn_5dp">
+        </View>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đóng"
+            android:background="@drawable/ripple_effect"
+            android:maxWidth="300dp"
+            android:id="@+id/close"/>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

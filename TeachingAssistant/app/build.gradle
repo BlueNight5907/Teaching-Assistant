@@ -1,0 +1,61 @@
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.app.teachingassistant"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    sourceSets {
+        main {
+            res {
+                srcDirs 'src\\main\\res', 'src\\main\\res\\layouts\\login', 'src\\main\\res\\layouts\\student-home', 'src\\main\\res\\layouts\\teacher-home', 'src\\main\\res\\layouts\\register', 'src\\main\\res\\layouts\\bottom-sheet', 'src\\main\\res\\layouts\\modal', 'src\\main\\res\\layouts\\dialog', 'src\\main\\res\\layouts\\attend-class', 'src\\main\\res\\layouts\\student-class', 'src\\main\\res\\layouts\\teacher-class', 'src\\main\\res\\layouts\\chat', 'src\\main\\res\\layouts\\student-attendance', 'src\\main\\res\\layouts\\create-class', 'src\\main\\res\\layouts\\teacher-attendance', 'src\\main\\res\\layouts\\class-status', 'src\\main\\res\\layouts\\add-student', 'src\\main\\res\\layouts\\toolbar', 'src\\main\\res\\layouts\\notification'
+            }
+            java {
+                srcDirs 'src\\main\\java', 'src\\main\\java\\model', 'src\\main\\java\\com.app.teachingassistant\\model'
+            }
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.firebaseui:firebase-ui-database:7.1.1'
+    implementation 'com.firebaseui:firebase-ui-storage:7.1.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.drawerlayout:drawerlayout:1.0.0'
+    implementation 'androidx.navigation:navigation-fragment:2.3.4'
+    implementation 'androidx.navigation:navigation-ui:2.3.4'
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    implementation 'com.google.firebase:firebase-auth:20.0.4'
+    implementation 'com.google.firebase:firebase-database:19.7.0'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}

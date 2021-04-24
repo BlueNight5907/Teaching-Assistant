@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView android:id="@+id/student_class_main_scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+    app:behavior_overlapTop="65dp"
+    android:scrollbars="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/student_main_class_item"></include>
+        </RelativeLayout>
+        <include layout="@layout/student_state" android:layout_width="match_parent" android:layout_marginHorizontal="10dp" android:layout_marginBottom="15dp" android:layout_height="wrap_content"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/attendance_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false">
+
+        </androidx.recyclerview.widget.RecyclerView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/white">
+        </View>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

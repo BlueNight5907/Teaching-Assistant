@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Teaching Assistant</string>
+    <string name="home">Trang chủ</string>
+    <string name="attendance">Điểm danh</string>
+    <string name="notice">Thông báo</string>
+    <string name="calendar">Lịch</string>
+    <string name="todo">Việc cần làm</string>
+    <string name="action_avt">Avatar</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="Spinner_items">
+        <item>Giáo viên</item>
+        <item>Học sinh</item>
+    </string-array>
+</resources>

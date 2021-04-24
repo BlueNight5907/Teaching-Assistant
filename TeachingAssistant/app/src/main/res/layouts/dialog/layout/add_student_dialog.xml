@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="20dp" xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="Thêm học viên"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dialog_header_class_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginTop="10dp"
+            android:text="Thêm học viên bằng mã lớp"
+            android:textColor="@color/dracula_orchid"
+            android:textSize="20sp"
+            android:layout_below="@+id/dialog_title"/>
+        <LinearLayout
+            android:id="@+id/class_code_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="2dp"
+            android:layout_below="@+id/dialog_header_class_code">
+            <TextView
+                android:id="@+id/class_code"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="1234"
+                android:gravity="center"
+                android:textSize="15sp"
+                android:paddingLeft="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/dracula_orchid"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/class_item_border"/>
+            <Button
+                android:id="@+id/copyBtn"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:text="Copy"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:background="@drawable/attendance_btn"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/dialog_header_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Thêm học viên bằng tên/Email"
+            android:textColor="@color/dracula_orchid"
+            android:textSize="20sp"
+            android:layout_below="@+id/class_code_linear_layout"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/attendance_btn"
+            android:text="Tiếp tục"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="2dp"
+            android:layout_below="@+id/dialog_header_name"/>
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

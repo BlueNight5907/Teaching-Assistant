@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginVertical="5dp"
+    android:id="@+id/student_attendace_list_item"
+    android:clickable="true"
+    android:background="@drawable/attendance_list_item_press">
+
+    <ImageView
+        android:id="@+id/std_attd_item_img"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/ic_baseline_edit_calendar_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/attendance_name"
+        android:layout_width="200dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:gravity="start|center"
+        android:text="Điểm danh buổi 10"
+        android:textColor="@color/dracula_orchid"
+        android:textSize="15dp"
+        app:layout_constraintStart_toEndOf="@+id/std_attd_item_img"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/attendace_date"
+        android:layout_width="170dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:ellipsize="end"
+        android:gravity="center|start"
+        android:maxLines="1"
+        android:text="17/12/2021"
+        android:textColor="@color/dracula_orchid"
+        android:textSize="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/std_attd_item_img"
+        app:layout_constraintTop_toBottomOf="@+id/attendance_name"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/attendance_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:gravity="center|start"
+        android:text="Đã điểm danh"
+        android:textColor="@color/teal_700"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+         />
+
+    <LinearLayout
+        android:id="@+id/attendance_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@color/white"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@color/chi_gong"
+            android:layout_marginRight="10dp">
+
+        </de.hdodenhof.circleimageview.CircleImageView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New"
+            android:textColor="@color/chi_gong"
+            tools:layout_editor_absoluteX="311dp"
+            tools:layout_editor_absoluteY="2dp" />
+
+    </LinearLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

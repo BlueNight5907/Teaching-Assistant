@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="15dp"
+            android:text="Đổi thông tin"
+            android:gravity="center"
+            android:textColor="@color/dracula_orchid"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/usernameWrapper"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginTop="20dp"
+            app:hintEnabled="true"
+            app:errorEnabled="true">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Nhập họ và tên"
+                android:textSize="17dp"
+                android:drawableLeft="@drawable/ic_baseline_perm_identity_24"
+                android:textColor="@color/dracula_orchid"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="right">
+            <Button
+                android:text="Trở về"
+                android:id="@+id/cancel_button"
+                android:background="@drawable/ripple_effect"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:layout_width="130dp"
+                android:layout_height="50dp"/>
+            <Button
+                android:text="Xác nhận"
+                android:id="@+id/ok_button"
+                android:background="@drawable/ripple_effect"
+                android:textColor="@color/electronic_blue"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:layout_width="130dp"
+                android:layout_height="50dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+

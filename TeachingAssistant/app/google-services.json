@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "688456957648",
+    "firebase_url": "https://teachingassistance-a8bb8-default-rtdb.firebaseio.com",
+    "project_id": "teachingassistance-a8bb8",
+    "storage_bucket": "teachingassistance-a8bb8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688456957648:android:58abc53216c0bb266368d5",
+        "android_client_info": {
+          "package_name": "com.app.teachingassistant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "688456957648-j1ecvs17sertni4dfe4j2rptk6tkjd49.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6856AsgE9ZKgRGcfmrIEkFeuSX-Kzkxc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "688456957648-j1ecvs17sertni4dfe4j2rptk6tkjd49.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

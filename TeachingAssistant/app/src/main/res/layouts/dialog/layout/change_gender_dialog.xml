@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+app:cardCornerRadius="10dp">
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@+id/dialog_title"
+        android:text="Message"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_marginVertical="10dp"
+        android:textColor="@color/dracula_orchid"
+        />
+    <RadioGroup
+        android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RadioButton
+            android:drawableLeft="@drawable/ic_baseline_male_24"
+            android:buttonTint="@color/electronic_blue"
+            android:id="@+id/male"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:checked="true"
+            android:textColor="@color/dracula_orchid"
+            android:textSize="17sp"
+            android:text="Nam"/>
+        <RadioButton
+            android:drawableLeft="@drawable/ic_baseline_female_24"
+            android:buttonTint="@color/electronic_blue"
+            android:id="@+id/female"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textColor="@color/dracula_orchid"
+            android:textSize="17sp"
+            android:text="Nữ"/>
+        <RadioButton
+            android:drawableTint="@color/purple_700"
+            android:drawableLeft="@drawable/ic_baseline_attribution_24"
+            android:buttonTint="@color/electronic_blue"
+            android:id="@+id/another"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/dracula_orchid"
+            android:layout_weight="1"
+            android:textSize="17sp"
+            android:text="Khác"/>
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="right">
+        <Button
+            android:text="Trở về"
+            android:id="@+id/cancel_button"
+            android:background="@drawable/ripple_effect"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:layout_width="130dp"
+            android:layout_height="50dp"/>
+        <Button
+            android:text="Xác nhận"
+            android:id="@+id/ok_button"
+            android:background="@drawable/ripple_effect"
+            android:textColor="@color/electronic_blue"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:layout_width="130dp"
+            android:layout_height="50dp"/>
+    </LinearLayout>
+</LinearLayout>
+</androidx.cardview.widget.CardView>

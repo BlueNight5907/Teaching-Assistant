@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:id="@+id/sidebar_class_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="5dp"
+    android:layout_marginRight="15dp"
+    android:orientation="horizontal"
+    android:background="@drawable/sidebar_item_pressed"
+    android:clickable="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+
+            android:src="@drawable/class_img"
+            android:layout_marginRight="10dp"
+            >
+        </de.hdodenhof.circleimageview.CircleImageView>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:gravity="center|left"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lập trình web và ứng dụng"
+                android:textColor="@color/dracula_orchid"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mai Văn mạnh"
+                android:textSize="10dp"
+                android:textColor="@color/dracula_orchid"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

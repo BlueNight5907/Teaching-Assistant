@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <ripple android:color="#004791">
+            <item android:id="@+id/mask">
+                <shape
+                    android:shape="rectangle">
+                    <solid
+                        android:color="@color/electronic_blue" >
+                    </solid>
+                    <!-- Set màu nền-->
+                    <corners
+                        android:radius="5dp">
+                    </corners>
+                </shape>
+            </item>
+        </ripple>
+    </item>
+    <item android:state_enabled="false">
+        <shape
+            android:shape="rectangle">
+            <solid
+                android:color="@color/green_darner_tail" >
+            </solid>
+            <!-- Set màu nền-->
+            <corners
+                android:radius="5dp">
+            </corners>
+        </shape>
+    </item>
+    <item>
+        <shape
+            android:shape="rectangle">
+
+            <!-- Set màu nền-->
+            <solid
+                android:color="@color/electronic_blue" >
+            </solid>
+
+            <!-- đặt thuộc tính màu và độ rộng của đường viền -->
+
+
+            <!-- các thuộc tính căn chỉnh-->
+            <corners
+                android:radius="5dp">
+
+            </corners>
+        </shape>
+    </item>
+
+</selector>

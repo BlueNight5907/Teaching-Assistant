@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:clickable="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ripple_effect"
+            android:layout_gravity="right">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tất cả"
+                android:paddingLeft="10dp"
+                android:textSize="15dp"
+                android:textColor="@color/dracula_orchid"
+                />
+
+
+            <Spinner
+                android:id="@+id/more_option"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_baseline_arrow_drop_down_24"
+
+                />
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/soothing_breeze"
+        android:outlineAmbientShadowColor="@color/dracula_orchid">
+    </View>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

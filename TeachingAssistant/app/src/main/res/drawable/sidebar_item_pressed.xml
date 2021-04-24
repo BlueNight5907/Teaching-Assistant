@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@drawable/ripper_button">
+
+    </item>
+    <item>
+        <shape
+            android:shape="rectangle">
+
+            <!-- Set màu nền-->
+            <solid
+                android:color="?android:attr/windowBackground" >
+            </solid>
+
+
+            <padding android:bottom="5dp" android:left="5dp"
+                android:right="5dp" android:top="5dp"></padding>
+            <corners
+                android:topRightRadius="25dp"
+                android:bottomRightRadius="25dp">
+            </corners>
+        </shape>
+    </item>
+
+</selector>

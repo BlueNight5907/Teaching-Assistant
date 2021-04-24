@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="spinner_style" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
+        <item name="android:dropDownHorizontalOffset">5dip</item>
+        <item name="android:paddingHorizontal">0dp</item>
+    </style>
+</resources>

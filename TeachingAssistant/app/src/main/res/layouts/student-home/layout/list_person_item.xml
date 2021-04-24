@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="5dp"
+    android:gravity="center|start"
+    android:clickable="true"
+    android:background="@drawable/ripple_effect">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/people_img"
+        app:civ_border_width="2dp"
+        app:civ_border_overlay="true"
+        app:civ_border_color="@color/city_lights"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:src="@drawable/user_avt"
+        />
+    <TextView
+        android:id="@+id/people_name"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:text="Lê Văn Vang"
+        android:gravity="start|center"
+        android:layout_marginLeft="10dp"
+        android:textSize="15dp"
+        android:textColor="@color/dracula_orchid"/>
+    <Spinner
+        android:gravity="right"
+        android:id="@+id/class_people_item_more_option"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:dropDownVerticalOffset="40dp"
+        android:spinnerMode="dropdown"
+        android:theme="@style/spinner_style"
+        android:dropDownWidth="160dp"
+        android:background="@drawable/ic_baseline_more_vert_24_dark">
+    </Spinner>
+
+</LinearLayout>

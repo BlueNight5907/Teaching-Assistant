@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="light_green_blue">#55efc4</color>
+    <color name="mint_leaf">#00b894</color>
+    <color name="chi_gong">#d63031</color>
+    <color name="dracula_orchid">#2d3436</color>
+    <color name="sour_lemon">#ffeaa7</color>
+    <color name="bright_yarrow">#fdcb6e</color>
+    <color name="faded_poster">#81ecec</color>
+    <color name="robins_egg_blue">#00cec9</color>
+    <color name="first_day">#fab1a0</color>
+    <color name="orangeville">#e17055</color>
+    <color name="green_darner_tail">#74b9ff</color>
+    <color name="electronic_blue">#0984e3</color>
+    <color name="pink_glamour">#ff7675</color>
+    <color name="shy_moment">#a29bfe</color>
+    <color name="exodus_fruit">#6c5ce7</color>
+    <color name="pico_8_pink">#fd79a8</color>
+    <color name="prunus_avium">#e84393</color>
+    <color name="city_lights">#dfe6e9</color>
+    <color name="soothing_breeze">#b2bec3</color>
+    <color name="american_river">#636e72</color>
+</resources>

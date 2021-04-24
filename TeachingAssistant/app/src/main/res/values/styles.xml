@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#0078D5</item>
+        <item name="colorPrimaryDark">@color/american_river</item>
+        <item name="colorAccent">@color/shy_moment</item>
+        <item name="colorControlHighlight">#E9ECED</item>
+        <item name="android:windowAnimationStyle">@style/animation</item>
+    </style>
+    <style name="spinner_style" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
+        <item name="android:dropDownHorizontalOffset">5dip</item>
+    </style>
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+    <style name="my_edittext_style" parent="Widget.AppCompat.EditText">
+        <item name="colorPrimary">@color/city_lights</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottomsheet_custom</item>
+    </style>
+    <style name="animation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+    <style name="RoundedCornersDialog" parent="Theme.MaterialComponents.Dialog">
+        <item name="dialogCornerRadius">40dp</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <!-- android:textColorPrimary: Màu chữ Tiêu đề  -->
+        <item name="android:textColorPrimary">@android:color/holo_blue_light</item>
+        <!-- actionMenuTextColor: Màu chữ Menu  -->
+        <item name="actionMenuTextColor">@android:color/holo_green_light</item>
+        <!-- Tints -->
+        <item name="colorAccent">#a13636</item>
+        <!-- Màu áp dụng cho các View ở trạng thái bình thường -->
+        <item name="colorControlNormal">#d9cfcf</item>
+        <!-- Màu View đang hoạt động -->
+        <item name="colorControlActivated">#934848</item>
+        <!-- Highlight (i.e ripples or list selectors) -->
+        <item name="colorControlHighlight">#111</item>
+    </style>
+
+    <style name="Toolbar.TitleText"
+        parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">21sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/holo_orange_light</item>
+    </style>
+
+
+</resources>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="School Assistant"
+        android:gravity="center"
+        android:textSize="40sp"
+        android:layout_marginTop="80dp"
+        android:textColor="@color/electronic_blue"/>
+
+    <EditText
+        android:id="@+id/email_user"
+        android:background="@drawable/dotted_border"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:textColor="#FF6200EE"
+        android:paddingLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:inputType="textEmailAddress"
+        android:hint="email" />
+
+    <EditText
+        android:id="@+id/password_user"
+        android:background="@drawable/dotted_border"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:textColor="#FF6200EE"
+        android:paddingLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:inputType="textPassword"
+        android:hint="password"/>
+    <TextView
+        android:id="@+id/error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lỗi"
+        android:textColor="@color/chi_gong"
+        android:textSize="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="20dp"
+        android:paddingHorizontal="20dp"
+        />
+    <TextView
+        android:id="@+id/forgot_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="30dp"
+        android:textSize="15dp"
+        android:textColor="@color/electronic_blue"
+        android:text="Quên mật khẩu?" />
+
+    <Button
+        android:id="@+id/login"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/customer_btn"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/white"
+        android:text="Đăng nhập" />
+
+    <Button
+        android:id="@+id/login_with_gg"
+        android:layout_width="match_parent"
+        android:height="50dp"
+        android:background="@drawable/customer_btn"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:backgroundTint="@color/chi_gong"
+        android:layout_marginLeft="20dp"
+        android:textColor="@color/white"
+        android:text="Đăng nhập với Google" />
+
+    <TextView
+        android:id="@+id/register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:textSize="15dp"
+        android:clickable="true"
+        android:textColor="@color/electronic_blue"
+        android:text="Chưa có tài khoản? Đăng kí" />
+
+</LinearLayout>
