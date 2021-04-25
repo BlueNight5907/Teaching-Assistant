@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.teachingassistant.config.Accept_Student_Adapter;
+import com.app.teachingassistant.model.Message;
 import com.app.teachingassistant.model.Result;
 import com.app.teachingassistant.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -73,6 +74,24 @@ public class AccountDAO {
                 if(!task.isSuccessful()){
                      result[0] = new Result(true,task.getException().toString());
                 }
+            }
+        });
+        return result[0];
+    }
+    public Result sendMessage(DatabaseReference chatRef, Message message){
+        final Result[] result = {new Result(false, "Cập nhật thành công")};
+        String key = chatRef.push().getKey();
+        chatRef.child(key).setValue(message).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(!task.isSuccessful()){
+                    result[0] = new Result(true,task.getException().toString());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                result[0] = new Result(true,"Lỗi kết nối mạng");
             }
         });
         return result[0];

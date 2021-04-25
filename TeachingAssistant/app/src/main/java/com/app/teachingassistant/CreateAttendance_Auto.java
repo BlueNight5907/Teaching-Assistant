@@ -113,7 +113,7 @@ public class CreateAttendance_Auto extends AppCompatActivity {
                         (dayOfMonth) +"/"+(monthOfYear+1)+"/"+year);
                 //Lưu vết lại biến ngày hoàn thành
                 cal.set(year, monthOfYear, dayOfMonth);
-                dateFinish=cal.getTime();
+                dateFinish = cal.getTime();
             }
         };
         //các lệnh dưới này xử lý ngày giờ trong DatePickerDialog

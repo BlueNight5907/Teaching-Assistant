@@ -141,6 +141,11 @@ public class Teacher_Home_Fragment extends Fragment {
     }
     private void loadAll(){
         className.setText(ClassDAO.getInstance().getCurrentClass().getClassName());
-        classMembers.setText(""+ClassDAO.getInstance().getCurrentClass().getStudentList().size());
+        if(ClassDAO.getInstance().getCurrentClass().getStudentList() != null){
+            classMembers.setText(""+ClassDAO.getInstance().getCurrentClass().getStudentList().size());
+        }
+        else {
+            classMembers.setText("O học viên");
+        }
     }
 }

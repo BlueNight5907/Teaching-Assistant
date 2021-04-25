@@ -10,11 +10,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.app.teachingassistant.DAO.AccountDAO;
 import com.app.teachingassistant.R;
 import com.app.teachingassistant.model.Student_Infor;
 import com.app.teachingassistant.model.User;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Student_List_Recycle_Adapter extends RecyclerView.Adapter<Student_List_Recycle_Adapter.MyViewHolder> {
     private Activity mActivity;
@@ -35,7 +39,7 @@ public class Student_List_Recycle_Adapter extends RecyclerView.Adapter<Student_L
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.student_name.setText(String.valueOf(studentList.get(position).getName()));
+        holder.bind(studentList.get(position),position);
     }
 
     @Override
@@ -47,12 +51,22 @@ public class Student_List_Recycle_Adapter extends RecyclerView.Adapter<Student_L
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView student_name;
         Spinner option;
+        CircleImageView img;
         String do_action[] = {"Hủy đăng ký"};
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             option = itemView.findViewById(R.id.class_people_item_more_option);
             student_name = itemView.findViewById(R.id.people_name);
             option.setVisibility(View.GONE);
+            img = itemView.findViewById(R.id.people_img);
+        }
+        public void bind(User user,int position){
+            if(user == null)
+                return;
+            student_name.setText(user.getName());
+            if(user.isHasProfileUrl()){
+                AccountDAO.getInstance().loadProfileImg(user.getUUID(),img);
+            }
         }
     }
 }
