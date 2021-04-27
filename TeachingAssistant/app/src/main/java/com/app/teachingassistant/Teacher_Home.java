@@ -207,7 +207,6 @@ public class Teacher_Home extends AppCompatActivity {
                     if(class_infor == null) return;
                     class_list.add(class_infor);
                     teacher_home_classlist_adapter.notifyDataSetChanged();
-                    Log.d("num class", "onDataChange: "+class_list.size());
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {

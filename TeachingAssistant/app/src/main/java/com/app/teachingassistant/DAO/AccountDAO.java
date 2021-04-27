@@ -121,8 +121,15 @@ public class AccountDAO {
                         return;
                     Picasso.get().load(uri).into(imageView);
                 }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                }
             });
-        }catch (Exception e){}
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
     //////////////////////////////////////////////////////////////////
 

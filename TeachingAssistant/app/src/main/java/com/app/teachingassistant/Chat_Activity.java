@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.app.teachingassistant.DAO.AccountDAO;
@@ -53,10 +55,11 @@ public class Chat_Activity extends AppCompatActivity {
     String chatKey;
     EditText chatContent;
     Button sendMessageBtn;
-    RecyclerView.LayoutManager layoutManager;
-    private boolean loading = true;
+    LinearLayoutManager layoutManager;
     long endAt = new Date().getTime();
     long startAt = new Date().getTime();
+    private boolean loading = false;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +88,7 @@ public class Chat_Activity extends AppCompatActivity {
         chatRef = FirebaseDatabase.getInstance().getReference("Chats").child(chatKey);
         userRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
 
-
+        progressBar = findViewById(R.id.progressBar);
         message_list_view = findViewById(R.id.recycler_gchat);
         message_list_adapter = new Message_List_Adapter(this,messageList);
         layoutManager = new LinearLayoutManager(this);
@@ -93,59 +96,93 @@ public class Chat_Activity extends AppCompatActivity {
         message_list_view.setLayoutManager(layoutManager);
         message_list_view.setAdapter(message_list_adapter);
         input_message = findViewById(R.id.edit_gchat_message);
-        input_message.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                message_list_view.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        scrollMessageViewToBottom();
-                    }
-                }, 300);
 
-            }
-        });
+
         chatContent = findViewById(R.id.edit_gchat_message);
         sendMessageBtn = findViewById(R.id.button_gchat_send);
         sendMessageBtn.setOnClickListener(sendMess);
         message_list_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                if(dy<0){
+                    int pastVisibleItems = layoutManager.findFirstCompletelyVisibleItemPosition();
+                    if (pastVisibleItems  == 0) {
+                        if(!loading){
+                            loading = true;
+                            loadT10MessageLast();
+                        }
+                    }
+                }
             }
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if(IsRecyclerViewAtTop())
-                {
-                    Log.d("ffffff", "onScrollStateChanged: nani cô re");
-                    load20Message();
-                }
+
             }
         });
-        loadStart();
+        loadMessage();
 
     }
-    private boolean IsRecyclerViewAtTop()   {
-        if(message_list_view.getChildCount() == 0)
-            return true;
-        return message_list_view.getChildAt(0).getTop() == 0;
-    }
-    private void load20Message(){
-        chatRef.limitToLast(20).orderByChild("createdAt").endAt(endAt).addListenerForSingleValueEvent(new ValueEventListener() {
+    private void loadT10MessageLast(){
+        progressBar.setVisibility(View.VISIBLE);
+        // Save state
+        chatRef.limitToLast(10).orderByChild("createdAt").endAt(endAt-1).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+
                 ArrayList<Message> temp = new ArrayList<>();
                 for(DataSnapshot item: snapshot.getChildren()){
                     temp.add(0,item.getValue(Message.class));
                 }
                 for(Message item:temp){
                     messageList.add(0,item);
-                    message_list_adapter.notifyDataSetChanged();
+                    message_list_adapter.notifyItemInserted(0);
+                }
+
+                // Restore state
+
+
+                progressBar.setVisibility(View.GONE);
+                if(endAt == messageList.get(0).getCreatedAt()){
+                    return;
                 }
                 endAt = messageList.get(0).getCreatedAt();
+
+
+
+                message_list_view.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loading = false;
+                    }
+                }, 500);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+    private void loadMessage(){
+        chatRef.limitToLast(20).orderByChild("createdAt").endAt(endAt).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Message> temp = new ArrayList<>();
+                for(DataSnapshot item: snapshot.getChildren()){
+                    temp.add(0,item.getValue(Message.class));
+
+                }
+                for(Message item:temp){
+                    messageList.add(0,item);
+                }
+                message_list_adapter.notifyDataSetChanged();
+                if(messageList.size() > 0){
+                    endAt = messageList.get(0).getCreatedAt();
+                }
                 scrollMessageViewToBottom();
             }
             @Override
@@ -154,32 +191,7 @@ public class Chat_Activity extends AppCompatActivity {
             }
         });
     }
-    private void loadMessage(){
-        chatRef.limitToLast(20).orderByChild("createdAt").endAt(endAt).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<Message> temp = new ArrayList<>();
-                for(DataSnapshot item: snapshot.getChildren()){
-                    temp.add(0,item.getValue(Message.class));
 
-                }
-                for(Message item:temp){
-                    messageList.add(0,item);
-                    message_list_adapter.notifyDataSetChanged();
-                }
-                if(messageList.size() > 0){
-                    endAt = messageList.get(0).getCreatedAt();
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-    private void loadStart(){
-        loadMessage();
-    }
     private void scrollMessageViewToBottom(){
         message_list_view.smoothScrollToPosition(messageList.size());
     }
@@ -199,7 +211,7 @@ public class Chat_Activity extends AppCompatActivity {
             if(content.length()==0) return;
             String userUid = user.getUid();
             long dateCreated = (new Date().getTime());
-            Message message = new Message(content, AccountDAO.getInstance().getCurrentUser().getName(),userUid,dateCreated);
+            Message message = new Message(content, AccountDAO.getInstance().getCurrentUser().getName(),userUid,dateCreated,AccountDAO.getInstance().getCurrentUser().isHasProfileUrl());
             clearText();
             message_list_adapter.notifyDataSetChanged();
             scrollMessageViewToBottom();
@@ -211,7 +223,7 @@ public class Chat_Activity extends AppCompatActivity {
             else {
 
             }
-            Log.d("Time", "onClick: "+dateCreated);
+
         }
     };
     private void clearText(){

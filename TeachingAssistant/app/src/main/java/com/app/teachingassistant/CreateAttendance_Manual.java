@@ -2,7 +2,11 @@ package com.app.teachingassistant;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +24,19 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.app.teachingassistant.DAO.AttendanceDAO;
+import com.app.teachingassistant.DAO.ClassDAO;
+import com.app.teachingassistant.dialog.LoadingDialog;
+import com.app.teachingassistant.model.Attendance_Infor;
+import com.app.teachingassistant.model.Result;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -29,14 +46,17 @@ import java.util.Locale;
 public class CreateAttendance_Manual extends AppCompatActivity {
     ActionBar actionBar;
     Button createAttend;
-    Calendar cal;
-    Date dateFinish;
-    Date hourFinish;
-    EditText header,desc;
+    EditText header,description;
+    FirebaseUser user;
+    String classKey;
+    final LoadingDialog loadingDialog = new LoadingDialog(this);
+    DatabaseReference attendanceRef,classRef,userRef;
+    private static CreateAttendance_Manual instance;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_manual_attendance);
+        instance = this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
@@ -49,31 +69,90 @@ public class CreateAttendance_Manual extends AppCompatActivity {
 
         createAttend = findViewById(R.id.creater_class_btn);
         createAttend.setText("Tiếp tục");
-        createAttend.setEnabled(true);
         header = findViewById(R.id.header);
-        desc = findViewById(R.id.description);
-        getDefaultInfor();
+        description = findViewById(R.id.description);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            finish();
+        }
+        classKey = ClassDAO.getInstance().getCurrentClass().getKeyID();
+        classRef = FirebaseDatabase.getInstance().getReference("Class").child(classKey);
+        attendanceRef = FirebaseDatabase.getInstance().getReference("Attendances").child(classKey);
+        userRef = FirebaseDatabase.getInstance().getReference("Users");
+
+
+        header.addTextChangedListener(checkInput);
+        description.addTextChangedListener(checkInput);
+
+        createAttend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addAttendance();
+            }
+        });
 
 
     }
     /**
      * Hàm lấy các thông số mặc định khi lần đầu tiền chạy ứng dụng
      */
-    public void getDefaultInfor()
-    {
-        //lấy ngày hiện tại của hệ thống
-        cal=Calendar.getInstance();
-        SimpleDateFormat dft = null;
-        //Định dạng ngày / tháng /năm
-        dft =new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        String strDate = dft.format(cal.getTime());
-        //lấy giờ theo 24h
-        dft=new SimpleDateFormat("HH:mm",Locale.getDefault());
-        String strTime = dft.format(cal.getTime());
-        //gán cal.getTime() cho ngày hoàn thành và giờ hoàn thành
-        dateFinish=cal.getTime();
-        hourFinish=cal.getTime();
+    private void addAttendance(){
+        loadingDialog.startLoadingAlertDialog();
+        String headerText = header.getText().toString();
+        String descText = description.getText().toString();
+        attendanceRef.child(headerText).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if(snapshot.getValue()!= null){
+                    loadingDialog.stopLoadingAlertDialog();
+                    Toast.makeText(CreateAttendance_Manual.this,"Điểm danh với tên vừa nhập đã tồn tại, vui lòng đổi tên khác",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    long createAt = new Date().getTime();
+                    Attendance_Infor attendanceInfor = new Attendance_Infor(headerText,descText,createAt,createAt,"manual");
+                    AttendanceDAO.getInstance().createAttendanceManual(attendanceRef,headerText,attendanceInfor,CreateAttendance_Manual.this);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
+    public void closeDialog(){
+        loadingDialog.stopLoadingAlertDialog();
+    }
+    public void openAttendance(Attendance_Infor attendanceInfor){
+        AttendanceDAO.getInstance().setCurrentAttendance(attendanceInfor);
+        Intent intent = new Intent(this, Teacher_attendance.class);
+        startActivity(intent);
+        finish();
+    }
+    public void makeToastLong(String message){
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
+    }
+    public static CreateAttendance_Manual getInstance(){
+        return instance;
+    }
+    private TextWatcher checkInput = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            if(header.length()>0 && description.length()>0){
+                createAttend.setEnabled(true);
+            }
+            else {
+                createAttend.setEnabled(false);
+            }
+        }
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
+    };
 
 
     @Override

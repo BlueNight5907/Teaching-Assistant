@@ -5,18 +5,29 @@ public class Message {
     private String userUID;
     private String sender;
     private long createdAt;
+    private boolean hasImgUrl;
     public Message(){
         this.message = "";
         this.sender ="";
         this.userUID = "";
         this.createdAt = 0;
+        this.hasImgUrl = false;
     }
 
-    public Message(String message,String sender,String userUID,long createdAt){
+    public Message(String message,String sender,String userUID,long createdAt,boolean hasImgUrl){
         this.message = message;
         this.sender = sender;
         this.userUID = userUID;
         this.createdAt = createdAt;
+        this.hasImgUrl = hasImgUrl;
+    }
+
+    public boolean isHasImgUrl() {
+        return hasImgUrl;
+    }
+
+    public void setHasImgUrl(boolean hasImgUrl) {
+        this.hasImgUrl = hasImgUrl;
     }
 
     public String getMessage() {

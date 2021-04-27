@@ -180,7 +180,9 @@ public class Message_List_Adapter extends RecyclerView.Adapter{
 
             // Insert the profile image from the URL into the ImageView.
             //Thêm ảnh avt
-            AccountDAO.getInstance().loadProfileImg(message.getUserUID(),profileImage);
+            if(message.isHasImgUrl() == true){
+               AccountDAO.getInstance().loadProfileImg(message.getUserUID(),profileImage);
+            }
         }
     }
 }

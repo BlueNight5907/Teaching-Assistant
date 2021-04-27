@@ -362,7 +362,6 @@ public class UserManage extends AppCompatActivity {
                                             Toast.makeText(UserManage.this,"Đổi mật khẩu thành công",Toast.LENGTH_LONG).show();
                                         }
                                         else{
-                                            Log.d("error", "onClick: "+changePassResult.getMessage());
                                             Toast.makeText(UserManage.this,"Đổi mật khẩu thất bại",Toast.LENGTH_SHORT).show();
                                         }
                                     }else {
@@ -552,9 +551,7 @@ public class UserManage extends AppCompatActivity {
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0]<= PackageManager.PERMISSION_GRANTED)  {
-                    Log.d("value", "Permission Granted, Now you can use local drive.");
             } else {
-                Log.d("value", "Permission Denied, You cannot use local drive.");
             }
             break;
         }
@@ -603,8 +600,6 @@ public class UserManage extends AppCompatActivity {
                 selectedImagePath = selectedImageUri.getPath();
                 userAvt.setImageURI(selectedImageUri);
                 imageChange = true;
-
-                Log.d("image", "onActivityResult: "+selectedImagePath);;
             }
         }
     }

@@ -149,7 +149,6 @@ public class CreateClass extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.getValue()!=null){
                     loadingDialog.stopLoadingAlertDialog();
-                    Log.d("check", "onDataChange: "+snapshot.getValue());
                     Toast.makeText(CreateClass.this,"Lớp học đã tồn tại",Toast.LENGTH_SHORT).show();
                 }else{
                     Result result = ClassDAO.getInstance().createClassProfile(dtb,keyID,class_infor);
