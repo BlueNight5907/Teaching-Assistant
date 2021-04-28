@@ -100,19 +100,21 @@ public class CreateAttendance_Manual extends AppCompatActivity {
         loadingDialog.startLoadingAlertDialog();
         String headerText = header.getText().toString();
         String descText = description.getText().toString();
-        attendanceRef.child(headerText).addListenerForSingleValueEvent(new ValueEventListener() {
+        attendanceRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                if(snapshot.getValue()!= null){
-                    loadingDialog.stopLoadingAlertDialog();
-                    Toast.makeText(CreateAttendance_Manual.this,"Điểm danh với tên vừa nhập đã tồn tại, vui lòng đổi tên khác",Toast.LENGTH_SHORT).show();
+                for(DataSnapshot item: snapshot.getChildren()){
+                    Attendance_Infor temp = item.getValue(Attendance_Infor.class);
+                    if(temp.getName().equals(headerText)){
+                        loadingDialog.stopLoadingAlertDialog();
+                        Toast.makeText(CreateAttendance_Manual.this,"Điểm danh với tên vừa nhập đã tồn tại, vui lòng đổi tên khác",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
-                else {
-                    long createAt = new Date().getTime();
-                    Attendance_Infor attendanceInfor = new Attendance_Infor(headerText,descText,createAt,createAt,"manual");
-                    AttendanceDAO.getInstance().createAttendanceManual(attendanceRef,headerText,attendanceInfor,CreateAttendance_Manual.this);
-                }
+                long createAt = new Date().getTime();
+                String keyID = attendanceRef.push().getKey();
+                Attendance_Infor attendanceInfor = new Attendance_Infor(headerText,descText,createAt, createAt,"auto",keyID);
+                AttendanceDAO.getInstance().createAttendanceManual(attendanceRef,keyID,attendanceInfor,CreateAttendance_Manual.this);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

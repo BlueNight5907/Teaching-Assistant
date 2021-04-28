@@ -8,19 +8,30 @@ public class Attendance_Infor {
     private  long createAt;
     private long endAt;
     private String type;
+    private String keyID;
     public Attendance_Infor(){
         this.name = "";
         this.describe ="";
         this.createAt = new Date().getTime();
         this.endAt = new Date().getTime();
         this.type = "manual";
+        keyID = "";
     }
-    public Attendance_Infor(String name,String describe,long createAt,long endAt,String type){
+    public Attendance_Infor(String name,String describe,long createAt,long endAt,String type,String keyID){
         this.name = name;
         this.describe = describe;
         this.createAt = createAt;
         this.endAt = endAt;
         this.type = type;
+        this.keyID = keyID;
+    }
+
+    public String getKeyID() {
+        return keyID;
+    }
+
+    public void setKeyID(String keyID) {
+        this.keyID = keyID;
     }
 
     public String getName() {

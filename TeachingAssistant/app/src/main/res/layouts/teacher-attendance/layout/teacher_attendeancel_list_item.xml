@@ -5,24 +5,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:layout_marginRight="5dp"
     android:layout_marginVertical="5dp"
     android:id="@+id/teacher_attendance_list_item"
-    android:background="@drawable/attendance_list_item_press">
+    android:background="@color/white">
 
-    <ImageView
-        android:id="@+id/teacher_attendance_image_item"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="5dp"
-        android:src="@drawable/user_avt"
+    <TextView
+        android:id="@+id/number"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="0"
+        android:textColor="@color/dracula_orchid"
+        android:textSize="16dp"
+        android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+         />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/teacher_attendance_image_item"
+        android:layout_width="35dp"
+        android:layout_marginLeft="5dp"
+        android:layout_height="35dp"
+        android:src="@drawable/user_avt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/number"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/teacher_attendance_student_name_item"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:ellipsize="end"
@@ -32,45 +45,46 @@
         android:textColor="@color/dracula_orchid"
         android:textSize="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/radioGroup"
         app:layout_constraintStart_toEndOf="@+id/teacher_attendance_image_item"
         app:layout_constraintTop_toTopOf="parent" />
 
     <RadioGroup
-        android:layout_width="160dp"
+        android:id="@+id/radioGroup"
+        android:layout_width="150dp"
         android:layout_height="40dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/teacher_attendance_student_name_item"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal">
-            <CheckBox
-                android:id="@+id/checkbox_present"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:checked="true"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="center_horizontal"/>
-            <CheckBox
-                android:id="@+id/checkbox_late"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:checked="false"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="center_horizontal"/>
-            <CheckBox
-                android:id="@+id/checkbox_absent"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:checked="false"
-                android:layout_gravity="center_horizontal"/>
-        </LinearLayout>
+        <RadioButton
+            android:button="@drawable/custom_radio_btn"
+            android:id="@+id/checkbox_present"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="5dp"
+            />
+
+        <RadioButton
+            android:button="@drawable/custom_radio_btn"
+            android:id="@+id/checkbox_late"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:checked="false" />
+
+        <RadioButton
+            android:button="@drawable/custom_radio_btn"
+            android:id="@+id/checkbox_absent"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="10dp"
+            android:checked="false" />
 
     </RadioGroup>
 

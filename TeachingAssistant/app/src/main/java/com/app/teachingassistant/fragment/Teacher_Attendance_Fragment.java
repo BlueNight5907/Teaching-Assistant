@@ -13,12 +13,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.app.teachingassistant.ClassStatus;
+import com.app.teachingassistant.DAO.AttendanceDAO;
+import com.app.teachingassistant.DAO.ClassDAO;
 import com.app.teachingassistant.R;
+import com.app.teachingassistant.Teacher_attendance;
 import com.app.teachingassistant.config.Teacher_Attendance_List_Recycle_Adapter;
+import com.app.teachingassistant.dialog.LoadingDialog;
 import com.app.teachingassistant.model.Attendance_Infor;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -42,6 +51,10 @@ public class Teacher_Attendance_Fragment extends Fragment {
     Button createAttendance;
     ConstraintLayout classState;
     ArrayList<Attendance_Infor> attendance_list = new ArrayList<Attendance_Infor>();
+    FirebaseUser user;
+    DatabaseReference classRef,userRef,attendRef;
+    Teacher_Attendance_List_Recycle_Adapter teacher_attendance_list_recycle_adapter;
+    final LoadingDialog loadingDialog = new LoadingDialog(getActivity());
 
 
     public Teacher_Attendance_Fragment() {
@@ -73,6 +86,25 @@ public class Teacher_Attendance_Fragment extends Fragment {
             mParam1 = getArguments().getString(TAG);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            finish();
+        }
+        classRef = FirebaseDatabase.getInstance().getReference("Class").child(ClassDAO.getInstance().getCurrentClass().getKeyID());
+        userRef = FirebaseDatabase.getInstance().getReference("Users");
+        attendRef = FirebaseDatabase.getInstance().getReference("Attendances").child(ClassDAO.getInstance().getCurrentClass().getKeyID());
+    }
+    public void closeDialog(){
+        loadingDialog.stopLoadingAlertDialog();
+    }
+    public void openAttendance(Attendance_Infor attendanceInfor){
+        AttendanceDAO.getInstance().setCurrentAttendance(attendanceInfor);
+        Intent intent = new Intent(getActivity(), Teacher_attendance.class);
+        startActivity(intent);
+        finish();
+    }
+    public void makeToastLong(String message){
+        Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -80,11 +112,9 @@ public class Teacher_Attendance_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.teacher_class_attendance_fragment, container, false);
-
         //Thiết lập recycler view
-        genMock();
         recyclerView = view.findViewById(R.id.attendance_list);
-        Teacher_Attendance_List_Recycle_Adapter teacher_attendance_list_recycle_adapter = new Teacher_Attendance_List_Recycle_Adapter(getActivity(),attendance_list);
+        teacher_attendance_list_recycle_adapter = new Teacher_Attendance_List_Recycle_Adapter(getActivity(),attendance_list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);
@@ -108,19 +138,23 @@ public class Teacher_Attendance_Fragment extends Fragment {
         });
 
 
-
         // Inflate the layout for this fragment
         return view;
     }
-    private void genMock(){
-        for(int i = 0; i<10;i++){
-            attendance_list.add(new Attendance_Infor());
-        }
-    }
+
     public void finish(){
         finish();
     }
+    private void loadAllAttendancesList(){
+        AttendanceDAO.getInstance().loadAllAttendancesList(attendRef,attendance_list,teacher_attendance_list_recycle_adapter,Teacher_Attendance_Fragment.this);
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        attendance_list.clear();
+        loadAllAttendancesList();
+    }
 
     /**
      * showing bottom sheet dialog fragment

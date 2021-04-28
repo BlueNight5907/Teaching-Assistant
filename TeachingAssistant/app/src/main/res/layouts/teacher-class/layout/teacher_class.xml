@@ -8,63 +8,39 @@
     <!-- Thành phần con thứ nhất -->
     <include layout="@layout/teacher_class_main" android:id="@+id/student_class_main" />
     <!-- Thành phần con thứ hai -->
-    <ScrollView
+    <com.google.android.material.navigation.NavigationView
         android:layout_width="320dp"
-        android:layout_height="match_parent"
-        android:overScrollMode="ifContentScrolls"
+        android:id="@+id/sidebar"
         android:fitsSystemWindows="true"
-        android:layout_gravity="start"
-        >
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/sidebar"
+        android:layout_height="match_parent"
+        app:headerLayout="@layout/nav_sidebar_header"
+        android:theme="@style/AppTheme"
+        app:menu="@menu/teacher_sidebar_menu"
+        android:scrollbars="vertical"
+        android:layout_gravity="start">
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:headerLayout="@layout/nav_sidebar_header"
-            android:theme="@style/AppTheme"
-            app:menu="@menu/teacher_sidebar_menu"
-            android:scrollbars="vertical"
-            android:layout_gravity="start">
-            <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="260dp"
+            android:nestedScrollingEnabled="false">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="5dp"
+                android:background="@color/soothing_breeze"
+                android:layout_marginBottom="10dp"/>
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="260dp"
-                android:nestedScrollingEnabled="false">
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginHorizontal="5dp"
-                    android:background="@color/soothing_breeze"
-                    android:layout_marginBottom="10dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Giảng dạy"
-                    android:textColor="@color/soothing_breeze"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    />
-                <include layout="@layout/sidebar_item"/>
-                <include layout="@layout/sidebar_item"/>
-                <include layout="@layout/sidebar_item"/>
-                <include layout="@layout/sidebar_item"/>
-                <include layout="@layout/sidebar_item"/>
-                <include layout="@layout/sidebar_item"/>
-                <include layout="@layout/sidebar_item"/>
-                <include layout="@layout/sidebar_item"/>
-                <include layout="@layout/sidebar_item"/>
-                <ListView
-                    android:id="@+id/sidebar_list_class"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </ListView>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@color/white">
-                </View>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </com.google.android.material.navigation.NavigationView>
-    </ScrollView>
+                android:text="Giảng dạy"
+                android:textColor="@color/soothing_breeze"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                />
+            <include layout="@layout/sidebar_item"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

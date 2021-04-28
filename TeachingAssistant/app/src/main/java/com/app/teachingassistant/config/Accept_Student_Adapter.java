@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.teachingassistant.DAO.AccountDAO;
 import com.app.teachingassistant.DAO.ClassDAO;
 import com.app.teachingassistant.R;
+import com.app.teachingassistant.fragment.Teacher_People_Fragment;
 import com.app.teachingassistant.model.Result;
 import com.app.teachingassistant.model.User;
 import com.bumptech.glide.Glide;
@@ -36,11 +37,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Accept_Student_Adapter extends RecyclerView.Adapter<Accept_Student_Adapter.MyViewHolder> {
     private Activity mActivity;
     private ArrayList<User> student_list;
+    private Teacher_People_Fragment fragment;
 
-    public Accept_Student_Adapter(Activity activity,ArrayList student_list) {
+    public Accept_Student_Adapter(Activity activity,Teacher_People_Fragment fragment,ArrayList student_list) {
         super();
         this.mActivity = activity;
         this.student_list = student_list;
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -75,6 +78,9 @@ public class Accept_Student_Adapter extends RecyclerView.Adapter<Accept_Student_
             progressBar = itemView.findViewById(R.id.progressBar);
         }
         public void bind(User user,int position){
+            if(user == null){
+                return;
+            }
             userName.setText(user.getName());
             String UUID = user.getUUID();
             String classCode = ClassDAO.getInstance().getCurrentClass().getKeyID();
@@ -112,6 +118,7 @@ public class Accept_Student_Adapter extends RecyclerView.Adapter<Accept_Student_
                     Log.d("map", "onClick: "+map);
                     ClassDAO.getInstance().getCurrentClass().getStudentToAttend().remove(position);
                     student_list.remove(position);
+                    fragment.addStdtoList(user);
                     notifyDataSetChanged();
                 }
             });

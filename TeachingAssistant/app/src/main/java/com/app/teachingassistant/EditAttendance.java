@@ -6,13 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -27,6 +30,9 @@ import com.app.teachingassistant.DAO.AttendanceDAO;
 import com.app.teachingassistant.DAO.ClassDAO;
 import com.app.teachingassistant.dialog.LoadingDialog;
 import com.app.teachingassistant.model.Attendance_Infor;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -39,9 +45,11 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
-public class CreateAttendance_Auto extends AppCompatActivity {
+public class EditAttendance extends AppCompatActivity {
     ActionBar actionBar;
     LinearLayout linearLayout;
     TextView theme_name;
@@ -55,10 +63,11 @@ public class CreateAttendance_Auto extends AppCompatActivity {
     final LoadingDialog loadingDialog = new LoadingDialog(this);
     DatabaseReference attendanceRef,classRef,userRef;
     String classKey;
+    Spinner attendanceType;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.teacher_auto_attendance);
+        setContentView(R.layout.edit_attendance);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
@@ -67,17 +76,27 @@ public class CreateAttendance_Auto extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle("Tạo điểm danh");
+        actionBar.setTitle("Chỉnh sửa điểm danh");
+
+
+
+
+        classKey = ClassDAO.getInstance().getCurrentClass().getKeyID();
+        classRef = FirebaseDatabase.getInstance().getReference("Class").child(classKey);
+        attendanceRef = FirebaseDatabase.getInstance().getReference("Attendances").child(classKey);
+        userRef = FirebaseDatabase.getInstance().getReference("Users");
 
         createAttend = findViewById(R.id.creater_class_btn);
-        createAttend.setText("Tạo");
+        createAttend.setText("Lưu");
         header = findViewById(R.id.header);
         desc = findViewById(R.id.description);
         txtDate = findViewById(R.id.txtDate);
         txtTime = findViewById(R.id.txtTime);
         changeDate = findViewById(R.id.changeDate);
         changeTime = findViewById(R.id.changeHours);
-        getDefaultInfor();
+        attendanceType = findViewById(R.id.attendaceType);
+
+        linearLayout = findViewById(R.id.setTime);
         changeDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,10 +109,7 @@ public class CreateAttendance_Auto extends AppCompatActivity {
                 showTimePickerDialog();
             }
         });
-        classKey = ClassDAO.getInstance().getCurrentClass().getKeyID();
-        classRef = FirebaseDatabase.getInstance().getReference("Class").child(classKey);
-        attendanceRef = FirebaseDatabase.getInstance().getReference("Attendances").child(classKey);
-        userRef = FirebaseDatabase.getInstance().getReference("Users");
+
         header.addTextChangedListener(checkInput);
         desc.addTextChangedListener(checkInput);
         createAttend.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +118,25 @@ public class CreateAttendance_Auto extends AppCompatActivity {
                 addAttendance();
             }
         });
+        attendanceType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position == 0){
+                    linearLayout.setVisibility(View.GONE);
+                }
+                else{
+                    long time = AttendanceDAO.getInstance().getCurrentAttendance().getEndAt();
+                    setTime(time);
+                    linearLayout.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        getDefaultInfor();
     }
     private TextWatcher checkInput = new TextWatcher() {
         @Override
@@ -125,30 +160,41 @@ public class CreateAttendance_Auto extends AppCompatActivity {
         String headerText = header.getText().toString();
         String descText = desc.getText().toString();
 
-        String s=txtDate.getText()+"";
-        String strArrtmp[]=s.split("/");
-        int ngay=Integer.parseInt(strArrtmp[0]);
-        int thang=Integer.parseInt(strArrtmp[1])-1;
-        int nam=Integer.parseInt(strArrtmp[2]);
 
-        s=txtTime.getTag()+"";
-        String strArr[]=s.split(":");
-        int gio=Integer.parseInt(strArr[0]);
-        int phut=Integer.parseInt(strArr[1]);
+        String type = "auto";
+        if(attendanceType.getSelectedItemPosition() == 0){
+            type = "manual";
+        }
+        long endAt = AttendanceDAO.getInstance().getCurrentAttendance().getCreateAt();
+        if(type.equals("auto")){
+            String s=txtDate.getText()+"";
+            String strArrtmp[]=s.split("/");
+            int ngay=Integer.parseInt(strArrtmp[0]);
+            int thang=Integer.parseInt(strArrtmp[1])-1;
+            int nam=Integer.parseInt(strArrtmp[2]);
 
-        try {
-            cal = Calendar.getInstance();
-            cal.set(nam,thang,ngay,gio,phut);
-        }catch (Exception e){
-            loadingDialog.stopLoadingAlertDialog();
-            Toast.makeText(this,"Nhập thời gian không đúng định dạng",Toast.LENGTH_SHORT).show();
+            s=txtTime.getTag()+"";
+            String strArr[]=s.split(":");
+            int gio=Integer.parseInt(strArr[0]);
+            int phut=Integer.parseInt(strArr[1]);
+            try {
+                cal = Calendar.getInstance();
+                cal.set(nam,thang,ngay,gio,phut);
+            }catch (Exception e){
+                loadingDialog.stopLoadingAlertDialog();
+                Toast.makeText(this,"Nhập thời gian không đúng định dạng",Toast.LENGTH_SHORT).show();
+            }
+            endAt = cal.getTimeInMillis();
+            if(endAt < new Date().getTime()){
+                loadingDialog.stopLoadingAlertDialog();
+                makeToastLong("Thời gian tới hạn bé hơn so với thời gian khỏi tạo");
+                return;
+            }
         }
-        long endAt = cal.getTimeInMillis();
-        if(endAt < new Date().getTime()){
-            loadingDialog.stopLoadingAlertDialog();
-            makeToastLong("Thời gian tới hạn bé hơn so với thời gian khỏi tạo");
-            return;
-        }
+        Map<String,Object> map = new HashMap<>();
+
+        long finalEndAt = endAt;
+        String finalType = type;
         attendanceRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -156,19 +202,38 @@ public class CreateAttendance_Auto extends AppCompatActivity {
                     Attendance_Infor temp = item.getValue(Attendance_Infor.class);
                     if(temp.getName().equals(headerText)){
                         loadingDialog.stopLoadingAlertDialog();
-                        Toast.makeText(CreateAttendance_Auto.this,"Điểm danh với tên vừa nhập đã tồn tại, vui lòng đổi tên khác",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditAttendance.this,"Điểm danh với tên vừa nhập đã tồn tại, vui lòng đổi tên khác",Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
-                long createAt = new Date().getTime();
-                String keyID = attendanceRef.push().getKey();
-                Attendance_Infor attendanceInfor = new Attendance_Infor(headerText,descText,createAt, endAt,"auto",keyID);
-                AttendanceDAO.getInstance().createAttendanceAuto(attendanceRef,keyID,attendanceInfor,CreateAttendance_Auto.this);
+
+                long createAt = AttendanceDAO.getInstance().getCurrentAttendance().getCreateAt();
+                String keyID = AttendanceDAO.getInstance().getCurrentAttendance().getKeyID();
+                Attendance_Infor attendanceInfor = new Attendance_Infor(headerText,descText,createAt, finalEndAt, finalType,keyID);
+                map.put(keyID,attendanceInfor);
+                attendanceRef.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        loadingDialog.stopLoadingAlertDialog();
+                        if(task.isSuccessful()){
+                            makeToastLong("Cập nhật thông tin thành công");
+                        }
+                        else {
+                            makeToastLong("Cập nhật thông tin thất bại");
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        loadingDialog.stopLoadingAlertDialog();
+                        makeToastLong("Đã có lỗi xảy ra");
+                    }
+                });
 
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                loadingDialog.stopLoadingAlertDialog();
             }
         });
 
@@ -177,6 +242,9 @@ public class CreateAttendance_Auto extends AppCompatActivity {
         loadingDialog.stopLoadingAlertDialog();
     }
     public void openAttendance(Attendance_Infor attendanceInfor){
+        AttendanceDAO.getInstance().setCurrentAttendance(attendanceInfor);
+        Intent intent = new Intent(this, Teacher_attendance.class);
+        startActivity(intent);
         finish();
     }
     public void makeToastLong(String message){
@@ -185,10 +253,10 @@ public class CreateAttendance_Auto extends AppCompatActivity {
     /**
      * Hàm lấy các thông số mặc định khi lần đầu tiền chạy ứng dụng
      */
-    public void getDefaultInfor()
-    {
+    public void setTime(long time){
         //lấy ngày hiện tại của hệ thống
         cal=Calendar.getInstance();
+        cal.setTimeInMillis(time);
         SimpleDateFormat dft = null;
         //Định dạng ngày / tháng /năm
         dft =new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -205,8 +273,24 @@ public class CreateAttendance_Auto extends AppCompatActivity {
         dft=new SimpleDateFormat("HH:mm",Locale.getDefault());
         txtTime.setTag(dft.format(cal.getTime()));
         //gán cal.getTime() cho ngày hoàn thành và giờ hoàn thành
-
         hourFinish=cal.getTime();
+    }
+    public void getDefaultInfor()
+    {
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+        header.setText(AttendanceDAO.getInstance().getCurrentAttendance().getName());
+        desc.setText(AttendanceDAO.getInstance().getCurrentAttendance().getDescribe());
+        String type = AttendanceDAO.getInstance().getCurrentAttendance().getType();
+        if(type.equals("manual")){
+            linearLayout.setVisibility(View.GONE);
+            attendanceType.setSelection(0);
+        }else {
+            attendanceType.setSelection(0);
+            long time = AttendanceDAO.getInstance().getCurrentAttendance().getEndAt();
+            setTime(time);
+        }
     }
     /**
      * Hàm hiển thị DatePicker dialog
@@ -234,7 +318,7 @@ public class CreateAttendance_Auto extends AppCompatActivity {
         int thang=Integer.parseInt(strArrtmp[1])-1;
         int nam=Integer.parseInt(strArrtmp[2]);
         DatePickerDialog pic=new DatePickerDialog(
-                CreateAttendance_Auto.this,
+                EditAttendance.this,
                 callback, nam, thang, ngay);
         pic.setTitle("Chọn ngày tới hạn");
         pic.show();
@@ -270,7 +354,7 @@ public class CreateAttendance_Auto extends AppCompatActivity {
         int gio=Integer.parseInt(strArr[0]);
         int phut=Integer.parseInt(strArr[1]);
         TimePickerDialog time=new TimePickerDialog(
-                CreateAttendance_Auto.this,
+                EditAttendance.this,
                 callback, gio, phut, true);
         time.setTitle("Chọn giờ");
         time.show();

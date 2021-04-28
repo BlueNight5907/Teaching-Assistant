@@ -21,8 +21,9 @@ import com.app.teachingassistant.DAO.AccountDAO;
 import com.app.teachingassistant.DAO.ClassDAO;
 import com.app.teachingassistant.R;
 import com.app.teachingassistant.config.Accept_Student_Adapter;
+import com.app.teachingassistant.fragment.Teacher_People_Fragment;
 import com.app.teachingassistant.model.Result;
-import com.app.teachingassistant.model.Student_Infor;
+
 import com.app.teachingassistant.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,7 +45,9 @@ public class AcceptAttendDialog extends DialogFragment {
     ArrayList<String> studentAttend = new ArrayList<>();
     ArrayList<User> studentList = new ArrayList<>();
     Accept_Student_Adapter accept_student_adapter;
-    public AcceptAttendDialog(){
+    Teacher_People_Fragment fragment;
+    public AcceptAttendDialog(Teacher_People_Fragment fragment){
+        this.fragment = fragment;
         user = FirebaseAuth.getInstance().getCurrentUser();
         classRef = FirebaseDatabase.getInstance().getReference("Class");
         userRef = FirebaseDatabase.getInstance().getReference("Users");
@@ -74,7 +77,7 @@ public class AcceptAttendDialog extends DialogFragment {
             }
         });
         listStudentView = customLayout.findViewById(R.id.list_student);
-        accept_student_adapter = new Accept_Student_Adapter(getActivity(),studentList);
+        accept_student_adapter = new Accept_Student_Adapter(getActivity(),fragment,studentList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         listStudentView.setItemAnimator(new DefaultItemAnimator());
         listStudentView.setLayoutManager(layoutManager);
@@ -94,7 +97,10 @@ public class AcceptAttendDialog extends DialogFragment {
                 Map<String,Object> map = ClassDAO.getInstance().acceptStudentAttend(FirebaseDatabase.getInstance(),UUID,classCode);
                 Log.d("map", "onClick: "+map);
                 studentAttend.remove(position);
-                studentList.remove(position);
+                if(position < studentList.size()){
+                    studentList.remove(position);
+                    fragment.addStdtoList(studentList.get(position));
+                }
                 accept_student_adapter.notifyDataSetChanged();
             }
         }

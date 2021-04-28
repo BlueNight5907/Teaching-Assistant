@@ -17,11 +17,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.teachingassistant.Chat_Activity;
+import com.app.teachingassistant.DAO.AttendanceDAO;
 import com.app.teachingassistant.DAO.ClassDAO;
 import com.app.teachingassistant.R;
 import com.app.teachingassistant.TeacherClass;
+import com.app.teachingassistant.Teacher_Home;
 import com.app.teachingassistant.config.Student_Attendance_List_Recycle_Adapter;
 import com.app.teachingassistant.config.Teacher_Attendance_List_Recycle_Adapter;
 import com.app.teachingassistant.model.Attendance_Infor;
@@ -55,7 +58,7 @@ public class Teacher_Home_Fragment extends Fragment {
     Button openMessBtn;
     RecyclerView attendance_list_recycler_view;
     FirebaseUser user;
-    DatabaseReference classRef,userRef;
+    DatabaseReference classRef,userRef,attendRef;
     Teacher_Attendance_List_Recycle_Adapter teacher_attendance_list_recycle_adapter;
     TextView className,classMembers;
 
@@ -92,8 +95,9 @@ public class Teacher_Home_Fragment extends Fragment {
         if(user == null){
             finish();
         }
-        classRef = FirebaseDatabase.getInstance().getReference("Class");
-        userRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
+        classRef = FirebaseDatabase.getInstance().getReference("Class").child(ClassDAO.getInstance().getCurrentClass().getKeyID());
+        userRef = FirebaseDatabase.getInstance().getReference("Users");
+        attendRef = FirebaseDatabase.getInstance().getReference("Attendances").child(ClassDAO.getInstance().getCurrentClass().getKeyID());
     }
 
     @Override
@@ -136,6 +140,13 @@ public class Teacher_Home_Fragment extends Fragment {
         loadAll();
         return view;
     }
+    private void loadAllAttendancesList(){
+        AttendanceDAO.getInstance().loadAllAttendancesListHome(attendRef,attendance_list,teacher_attendance_list_recycle_adapter, Teacher_Home_Fragment.this);
+    }
+    public void makeToastLong(String message){
+        Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
+    }
+
     public void finish(){
         finish();
     }
@@ -147,5 +158,6 @@ public class Teacher_Home_Fragment extends Fragment {
         else {
             classMembers.setText("O học viên");
         }
+        loadAllAttendancesList();
     }
 }

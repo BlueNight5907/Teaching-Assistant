@@ -7,9 +7,11 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,27 +25,55 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.teachingassistant.DAO.AttendanceDAO;
 import com.app.teachingassistant.DAO.ClassDAO;
 import com.app.teachingassistant.config.Student_Adapter;
-import com.app.teachingassistant.config.Student_Home_Classlist_Recycle_Adapter;
-import com.app.teachingassistant.model.Student_Infor;
+import com.app.teachingassistant.dialog.LoadingDialog;
+import com.app.teachingassistant.model.StudentAttendInfor;
+import com.app.teachingassistant.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class Teacher_attendance extends AppCompatActivity {
     ActionBar actionBar;
     private RecyclerView recyclerView;
-    private ArrayList<Student_Infor> students;
+    private ArrayList<String> studentList = new ArrayList<>();
+    private ArrayList<StudentAttendInfor> attendInforsList = new ArrayList<>();
     private Student_Adapter adapter ;
     Calendar cal = Calendar.getInstance();
     LinearLayout setEndHour;
     TextView className,header,describe,createAt,endAt;
+    TextView totalStdTxt,attendedTxt,latedTxt,absentTxt,type;
+    FirebaseUser user;
+    Button savebtn;
+    DatabaseReference classRef,userRef,attendRef;
+    final LoadingDialog loadingDialog = new LoadingDialog(this);
+
+    int attend = 0;
+    int lated = 0;
+    int absent = 0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_attendance);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            finish();
+        }
+        classRef = FirebaseDatabase.getInstance().getReference("Class").child(ClassDAO.getInstance().getCurrentClass().getKeyID());
+        userRef = FirebaseDatabase.getInstance().getReference("Users");
+        attendRef = FirebaseDatabase.getInstance().getReference("Attendances").child(ClassDAO.getInstance().getCurrentClass().getKeyID());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -51,26 +81,37 @@ public class Teacher_attendance extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setTitle("Điểm danh buổi 10");
+        actionBar.setTitle(AttendanceDAO.getInstance().getCurrentAttendance().getName());
 
         recyclerView = (RecyclerView)findViewById(R.id.teacher_attendance_recyclerview);
+        totalStdTxt = findViewById(R.id.totalStd);
+        attendedTxt = findViewById(R.id.attended);
+        latedTxt = findViewById(R.id.lated);
+        absentTxt = findViewById(R.id.absent_number);
+        type = findViewById(R.id.type);
+        savebtn = findViewById(R.id.save_attend_btn);
 
-
-        students = new ArrayList<>();
         className = findViewById(R.id.subject);
         header = findViewById(R.id.header);
         describe = findViewById(R.id.describle);
         createAt = findViewById(R.id.createAt);
         endAt = findViewById(R.id.endAt);
         setEndHour = findViewById(R.id.setEndHours);
-        binData();
-        genMock();
-        Log.d("student list", ""+students);
-        adapter = new Student_Adapter(this, students);
+        savebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveChange();
+            }
+        });
+
+
+
+        adapter = new Student_Adapter(this, studentList,attendInforsList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        binData();
     }
     private void changeRecyclerHeight(){
         float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,120, getResources().getDisplayMetrics());
@@ -81,12 +122,36 @@ public class Teacher_attendance extends AppCompatActivity {
 
 
     }
-    private void genMock(){
-        students = new ArrayList<>();
-        for(int i =0 ; i<20;i++){
-            students.add(new Student_Infor());
-        }
+    public void makeToastLong(String message){
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
     }
+    private void saveChange(){
+        loadingDialog.startLoadingAlertDialog();
+        Map<String,Object> map = new HashMap<>();
+        for(StudentAttendInfor item:attendInforsList){
+            map.put(item.getUUID(),item);
+        }
+        attendRef.child(AttendanceDAO.getInstance().getCurrentAttendance().getKeyID()).child("StudentStateList").updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                loadingDialog.stopLoadingAlertDialog();
+                if(task.isSuccessful()){
+                    makeToastLong("Lưu điểm danh thành công");
+                }
+                else {
+                    makeToastLong("Lưu điểm danh thất bại");
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                loadingDialog.stopLoadingAlertDialog();
+                makeToastLong("Lỗi kết nối, Lưu điểm danh thất bại");
+            }
+        });
+
+    }
+
     private int getNavigationBarHeight() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             DisplayMetrics metrics = new DisplayMetrics();
@@ -107,7 +172,7 @@ public class Teacher_attendance extends AppCompatActivity {
         }
         className.setText(ClassDAO.getInstance().getCurrentClass().getClassName());
         header.setText(AttendanceDAO.getInstance().getCurrentAttendance().getName());
-        describe.setText(AttendanceDAO.getInstance().getCurrentAttendance().getName());
+        describe.setText(AttendanceDAO.getInstance().getCurrentAttendance().getDescribe());
         cal.setTimeInMillis(AttendanceDAO.getInstance().getCurrentAttendance().getCreateAt());
         SimpleDateFormat dft = null;
         dft = new SimpleDateFormat("hh:mm", Locale.getDefault());
@@ -117,6 +182,7 @@ public class Teacher_attendance extends AppCompatActivity {
         createAt.setText(time+" phút,  ngày "+date);
         if(AttendanceDAO.getInstance().getCurrentAttendance().getType().equals("manual")){
             setEndHour.setVisibility(View.GONE);
+            type.setText("Thủ công/Giáo viên điểm danh");
         }
         else {
             cal.setTimeInMillis(AttendanceDAO.getInstance().getCurrentAttendance().getEndAt());
@@ -127,7 +193,47 @@ public class Teacher_attendance extends AppCompatActivity {
             endAt.setText(time+" phút,  ngày "+date);
         }
 
+        studentList = ClassDAO.getInstance().getCurrentClass().getStudentList();
+        totalStdTxt.setText(String.valueOf(studentList.size()));
+        String keyID = AttendanceDAO.getInstance().getCurrentAttendance().getKeyID();
+        AttendanceDAO.getInstance().loadAllStudentInAttendance(attendRef.child(keyID),studentList,attendInforsList,adapter,Teacher_attendance.this);
+
+
+
     }
+    public  void setStatistical(){
+        this.attend = 0;
+        this.lated = 0;
+        this.absent = 0;
+        for(StudentAttendInfor attendInfor:attendInforsList){
+
+            if(attendInfor.getState() == 0){
+
+                lated = lated + 1;
+            }
+            else if(attendInfor.getState() == 1){
+
+                attend = attend + 1;
+            }
+            else {
+                absent = absent+1;
+            }
+        }
+        Log.d("thong ke", "loadAllStudentInAttendance: "+attendInforsList.size()+" "+attend+" "+absent+" "+lated);
+        attendedTxt.setText(String.valueOf(attend));
+        latedTxt.setText(String.valueOf(lated));
+        absentTxt.setText(String.valueOf(absent));
+    }
+    public  void setStatistical(int attend,int lated, int absent){
+        this.attend = attend;
+        this.lated = lated;
+        this.absent = absent;
+        Log.d("thong ke", "loadAllStudentInAttendance: "+attendInforsList.size()+" "+attend+" "+absent+" "+lated);
+        attendedTxt.setText(String.valueOf(attend));
+        latedTxt.setText(String.valueOf(lated));
+        absentTxt.setText(String.valueOf(absent));
+    }
+
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

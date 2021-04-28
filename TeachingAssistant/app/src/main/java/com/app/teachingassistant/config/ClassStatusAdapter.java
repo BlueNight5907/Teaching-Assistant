@@ -11,15 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.teachingassistant.R;
-import com.app.teachingassistant.model.Student_Infor;
+import com.app.teachingassistant.model.StudentAttendInfor;
 
 import java.util.ArrayList;
 
 public class ClassStatusAdapter extends RecyclerView.Adapter<ClassStatusAdapter.MyViewHolder> {
     private Activity context;
-    private ArrayList<Student_Infor> students;
+    private ArrayList<StudentAttendInfor> students;
 
-    public ClassStatusAdapter(Activity context, ArrayList<Student_Infor> students) {
+    public ClassStatusAdapter(Activity context, ArrayList<StudentAttendInfor> students) {
         super();
         this.context = context;
         this.students = students;
@@ -34,10 +34,8 @@ public class ClassStatusAdapter extends RecyclerView.Adapter<ClassStatusAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Student_Infor student_infor = students.get(position);
-        holder.stt.setText(String.valueOf(position));
-        holder.name.setText(student_infor.getName());
-        holder.image.setImageResource(R.drawable.user_avt);
+
+
 
 
     }

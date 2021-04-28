@@ -18,7 +18,6 @@ import com.app.teachingassistant.DAO.AccountDAO;
 import com.app.teachingassistant.DAO.ClassDAO;
 import com.app.teachingassistant.R;
 import com.app.teachingassistant.config.Student_List_Recycle_Adapter;
-import com.app.teachingassistant.model.Student_Infor;
 import com.app.teachingassistant.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

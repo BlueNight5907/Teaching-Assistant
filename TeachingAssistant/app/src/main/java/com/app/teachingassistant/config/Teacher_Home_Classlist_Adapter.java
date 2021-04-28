@@ -125,9 +125,7 @@ public class Teacher_Home_Classlist_Adapter extends RecyclerView.Adapter<Teacher
                             FirebaseDatabase dtb = FirebaseDatabase.getInstance();
                             Map<String, Object> infos = new HashMap<>();
                             infos.put("Users/"+user.getUid()+"/ClassListCreated/"+class_infor.getClassName(),null);
-                            Log.d("delete", "onItemSelected: "+"Users/"+user.getUid()+"/ClassListCreated/"+class_infor.getClassName());
                             infos.put("Class/"+class_infor.getKeyID(),null);
-                            Log.d("delete", "onItemSelected: "+"Class/"+class_infor.getKeyID());
                             dtb.getReference().updateChildren(infos);
                             ClassDAO.getInstance().setCurrentClass(null);
                             loadingDialog.stopLoadingAlertDialog();

@@ -1,45 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
+<androidx.cardview.widget.CardView android:layout_width="250dp"
     android:layout_height="wrap_content"
-    android:paddingTop="20dp"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="30dp"
+    app:cardCornerRadius="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <TextView
-        android:layout_width="match_parent"
+    <LinearLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:id="@+id/dialog_message"
-        android:text="Message"
-        android:textSize="15dp"
-        android:textColor="@color/dracula_orchid"
-        />
-    <View
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@drawable/rounded_btn_5dp">
-    </View>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/not_ok_button"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="2"
-            android:text="Cancel"
-            android:background="@drawable/ripple_effect"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
-        <Button
-            android:id="@+id/ok_button"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="2"
-            android:text="Ok"
-            android:textColor="@color/electronic_blue"
-            android:background="@drawable/ripple_effect"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
-    </LinearLayout>
+        android:paddingTop="20dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:id="@+id/dialog_message"
+            android:text="Message"
+            android:textSize="15dp"
+            android:layout_marginHorizontal="20dp"
+            android:textColor="@color/dracula_orchid"
+            />
+        <View
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@drawable/rounded_btn_5dp">
+        </View>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/not_ok_button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="2"
+                android:text="Cancel"
+                android:background="@drawable/ripple_effect"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+            <Button
+                android:id="@+id/ok_button"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="2"
+                android:text="Ok"
+                android:textColor="@color/electronic_blue"
+                android:background="@drawable/ripple_effect"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+        </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

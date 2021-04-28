@@ -155,6 +155,28 @@
                     android:text="12:00 12/4/2021"
                     android:layout_marginVertical="5dp"/>
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="start|center"
+                android:layout_marginVertical="5dp">
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="Loại:"
+                    android:textSize="17dp"
+                    android:textColor="@color/dracula_orchid"/>
+                <TextView
+                    android:id="@+id/type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:textColor="@color/dracula_orchid"
+                    android:text="Tự động/Sinh viên click vào điểm danh"
+                    android:layout_marginVertical="5dp"/>
+            </LinearLayout>
+
 
 
             <TextView
@@ -191,9 +213,10 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/totalStd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20"
+                        android:text="0"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -213,9 +236,10 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/attended"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20"
+                        android:text="0"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -235,9 +259,10 @@
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/lated"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20"
+                        android:text="0"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -259,7 +284,7 @@
                         android:id="@+id/absent_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="20"
+                        android:text="0"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -274,6 +299,13 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Stt"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_weight="7"
                     android:text="Điểm danh"
@@ -284,18 +316,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_weight="1"
                     android:text="Có mặt"
-                    android:textColor="@color/black"
-                    android:textSize="18dp"
-                    />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:text="Trễ"
                     android:layout_marginRight="10dp"
                     android:textColor="@color/black"
                     android:textSize="18dp" />
@@ -304,8 +325,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
                     android:layout_marginRight="10dp"
+
+                    android:text="Trễ"
+                    android:textColor="@color/black"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:text="Vắng"
                     android:textColor="@color/black"
                     android:textSize="18dp" />
@@ -315,7 +344,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="-20dp"
-                android:layout_marginHorizontal="10dp"
                 android:background="@color/american_river"
                 android:layout_marginBottom="10dp"/>
 

@@ -66,6 +66,7 @@ public class TeacherClass extends AppCompatActivity {
         //Xử lý sự kiện tại navigation sidebar
         drawerLayout = findViewById(R.id.drawer_layout);
         sidebar = findViewById(R.id.sidebar);
+
         sidebar.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener(){
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.teachingassistant.DAO.AccountDAO;
 import com.app.teachingassistant.R;
-import com.app.teachingassistant.model.Student_Infor;
 import com.app.teachingassistant.model.User;
 
 import java.util.ArrayList;

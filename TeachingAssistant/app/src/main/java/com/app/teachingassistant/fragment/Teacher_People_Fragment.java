@@ -23,7 +23,6 @@ import com.app.teachingassistant.R;
 import com.app.teachingassistant.config.Student_List_In_TeacherView_Recycler_Adapter;
 import com.app.teachingassistant.dialog.AcceptAttendDialog;
 import com.app.teachingassistant.dialog.AddStudentDialog;
-import com.app.teachingassistant.model.Student_Infor;
 import com.app.teachingassistant.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -58,6 +57,7 @@ public class Teacher_People_Fragment extends Fragment {
     Button acceptAttend,addStudent;
     FirebaseUser user;
     DatabaseReference classRef,userRef;
+    Student_List_In_TeacherView_Recycler_Adapter student_list_recycle_adapter;
 
 
     public Teacher_People_Fragment() {
@@ -104,7 +104,7 @@ public class Teacher_People_Fragment extends Fragment {
         peopleOption.setVisibility(View.GONE);
         //Thiết lập recycler view
         recyclerView = view.findViewById(R.id.student_class_people_list);
-        Student_List_In_TeacherView_Recycler_Adapter student_list_recycle_adapter = new Student_List_In_TeacherView_Recycler_Adapter(getActivity(),userArrayList);
+        student_list_recycle_adapter = new Student_List_In_TeacherView_Recycler_Adapter(getActivity(),userArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);
@@ -120,7 +120,7 @@ public class Teacher_People_Fragment extends Fragment {
         acceptAttend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogFragment addStudentDialog = new AcceptAttendDialog();
+                DialogFragment addStudentDialog = new AcceptAttendDialog(Teacher_People_Fragment.this);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 addStudentDialog.show(fragmentManager,"Dialog");
             }
@@ -138,6 +138,11 @@ public class Teacher_People_Fragment extends Fragment {
         teacherIMG = view.findViewById(R.id.people_img);
         loadAll();
         return view;
+    }
+    public void addStdtoList(User user){
+        userArrayList.add(user);
+        student_list_recycle_adapter.notifyDataSetChanged();
+
     }
     private void loadAll(){
         teacherName.setText(ClassDAO.getInstance().getCurrentClass().getTeacherName());

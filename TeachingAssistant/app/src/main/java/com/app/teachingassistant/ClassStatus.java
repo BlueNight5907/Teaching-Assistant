@@ -12,14 +12,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.teachingassistant.config.ClassStatusAdapter;
-import com.app.teachingassistant.model.Student_Infor;
+import com.app.teachingassistant.model.StudentAttendInfor;
+import com.app.teachingassistant.model.User;
+
 
 import java.util.ArrayList;
 
 public class ClassStatus extends AppCompatActivity {
     ActionBar actionBar;
     private RecyclerView recyclerView;
-    private ArrayList<Student_Infor> students;
+    private ArrayList<StudentAttendInfor> students;
     private ClassStatusAdapter adapter ;
 
     @Override
@@ -54,7 +56,7 @@ public class ClassStatus extends AppCompatActivity {
 
     private void mockData() {
         for (int i = 1; i <=20; i++) {
-            students.add(new Student_Infor("Nguyen Thanh Luan"+i));
+            students.add(new StudentAttendInfor());
         }
     }
 }

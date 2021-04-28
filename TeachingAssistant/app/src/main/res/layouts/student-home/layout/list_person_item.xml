@@ -22,7 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="4"
-        android:text="Lê Văn Vang"
+        android:text="Nguyễn Văn A"
         android:gravity="start|center"
         android:layout_marginLeft="10dp"
         android:textSize="15dp"

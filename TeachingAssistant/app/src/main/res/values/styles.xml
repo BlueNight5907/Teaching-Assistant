@@ -5,9 +5,9 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#0078D5</item>
-        <item name="colorPrimaryDark">@color/american_river</item>
-        <item name="colorAccent">@color/shy_moment</item>
-        <item name="colorControlHighlight">#E9ECED</item>
+        <item name="android:colorPrimaryDark">@color/american_river</item>
+        <item name="android:colorAccent">@color/shy_moment</item>
+        <item name="android:colorControlHighlight">#E9ECED</item>
         <item name="android:windowAnimationStyle">@style/animation</item>
     </style>
     <style name="spinner_style" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
@@ -18,7 +18,7 @@
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
     <style name="my_edittext_style" parent="Widget.AppCompat.EditText">
-        <item name="colorPrimary">@color/city_lights</item>
+        <item name="android:colorPrimary">@color/city_lights</item>
     </style>
 
     <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
@@ -36,15 +36,15 @@
         <!-- android:textColorPrimary: Màu chữ Tiêu đề  -->
         <item name="android:textColorPrimary">@android:color/holo_blue_light</item>
         <!-- actionMenuTextColor: Màu chữ Menu  -->
-        <item name="actionMenuTextColor">@android:color/holo_green_light</item>
+        <item name="android:actionMenuTextColor">@android:color/holo_green_light</item>
         <!-- Tints -->
-        <item name="colorAccent">#a13636</item>
+        <item name="android:colorAccent">#a13636</item>
         <!-- Màu áp dụng cho các View ở trạng thái bình thường -->
-        <item name="colorControlNormal">#d9cfcf</item>
+        <item name="android:colorControlNormal">#d9cfcf</item>
         <!-- Màu View đang hoạt động -->
-        <item name="colorControlActivated">#934848</item>
+        <item name="android:colorControlActivated">#934848</item>
         <!-- Highlight (i.e ripples or list selectors) -->
-        <item name="colorControlHighlight">#111</item>
+        <item name="android:colorControlHighlight">#111</item>
     </style>
 
     <style name="Toolbar.TitleText"
