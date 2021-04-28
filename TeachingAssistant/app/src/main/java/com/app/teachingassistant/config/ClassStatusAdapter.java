@@ -15,6 +15,8 @@ import com.app.teachingassistant.model.StudentAttendInfor;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class ClassStatusAdapter extends RecyclerView.Adapter<ClassStatusAdapter.MyViewHolder> {
     private Activity context;
     private ArrayList<StudentAttendInfor> students;
@@ -47,7 +49,7 @@ public class ClassStatusAdapter extends RecyclerView.Adapter<ClassStatusAdapter.
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView image;
+        CircleImageView image;
         TextView name, stt;
 
         public MyViewHolder(@NonNull View itemView) {
