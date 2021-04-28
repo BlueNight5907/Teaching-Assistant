@@ -96,7 +96,10 @@ public class Teacher_Attendance_List_Recycle_Adapter extends RecyclerView.Adapte
         }
         public void bind(Attendance_Infor attendanceInfor, int positon){
             attendance_name.setText(attendanceInfor.getName());
-            int totalStudent = ClassDAO.getInstance().getCurrentClass().getStudentList().size();
+            int totalStudent = 0;
+            if(ClassDAO.getInstance().getCurrentClass().getStudentList() != null){
+                totalStudent =  ClassDAO.getInstance().getCurrentClass().getStudentList().size();
+            }
             cal.setTimeInMillis(attendanceInfor.getCreateAt());
             SimpleDateFormat dft = null;
             //Định dạng ngày / tháng /năm

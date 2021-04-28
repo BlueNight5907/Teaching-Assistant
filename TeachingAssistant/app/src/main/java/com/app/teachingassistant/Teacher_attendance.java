@@ -194,7 +194,11 @@ public class Teacher_attendance extends AppCompatActivity {
         }
 
         studentList = ClassDAO.getInstance().getCurrentClass().getStudentList();
-        totalStdTxt.setText(String.valueOf(studentList.size()));
+        if(studentList != null){
+            totalStdTxt.setText(String.valueOf(studentList.size()));
+        }else {
+            totalStdTxt.setText("0");
+        }
         String keyID = AttendanceDAO.getInstance().getCurrentAttendance().getKeyID();
         AttendanceDAO.getInstance().loadAllStudentInAttendance(attendRef.child(keyID),studentList,attendInforsList,adapter,Teacher_attendance.this);
 

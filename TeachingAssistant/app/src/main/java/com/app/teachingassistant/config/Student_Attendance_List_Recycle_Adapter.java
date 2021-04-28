@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.teachingassistant.DAO.AttendanceDAO;
 import com.app.teachingassistant.R;
 import com.app.teachingassistant.StudentAttendance;
 import com.app.teachingassistant.model.Attendance_Infor;
@@ -36,21 +37,7 @@ public class Student_Attendance_List_Recycle_Adapter extends RecyclerView.Adapte
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        if(position%4 == 0){
-            holder.status.setText("Chưa điểm danh");
-            holder.status.setTextColor(mActivity.getResources().getColor(R.color.soothing_breeze));
-            holder.new_layout.setVisibility(View.GONE);
-        }
-        else if(position%4 == 1){
-            holder.status.setText("Vắng học");
-            holder.status.setTextColor(mActivity.getResources().getColor(R.color.bright_yarrow));
-            holder.new_layout.setVisibility(View.GONE);
-        }else if(position%4 == 2) {
-            holder.status.setVisibility(View.GONE);
-        }
-        else {
-            holder.new_layout.setVisibility(View.GONE);
-        }
+        holder.bind(attendance_list.get(position),position);
     }
 
     @Override
@@ -68,19 +55,19 @@ public class Student_Attendance_List_Recycle_Adapter extends RecyclerView.Adapte
             attendance_name = itemView.findViewById(R.id.attendance_name);
             date = itemView.findViewById(R.id.attendace_date);
             status = itemView.findViewById(R.id.attendance_status);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
 
-                }
-            });
+        }
+        public  void bind(Attendance_Infor item,int position){
+            attendance_name.setText(item.getName());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    AttendanceDAO.getInstance().setCurrentAttendance(item);
                     Intent intent = new Intent(mActivity, StudentAttendance.class);
                     mActivity.startActivity(intent);
                 }
             });
         }
+
     }
 }

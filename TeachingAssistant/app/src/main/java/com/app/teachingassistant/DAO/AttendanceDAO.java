@@ -100,30 +100,32 @@ public class AttendanceDAO {
         });
     }
     public void loadAllStudentInAttendance(DatabaseReference ref, ArrayList<String> studentList, ArrayList<StudentAttendInfor> attendInfors, Student_Adapter adapter, Teacher_attendance activity){
-        for(String UUID : studentList){
-            ref.child("StudentStateList").child(UUID).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(snapshot.getValue() != null){
+        if(studentList != null){
+            for(String UUID : studentList){
+                ref.child("StudentStateList").child(UUID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.getValue() != null){
 
-                         StudentAttendInfor attendInfor = snapshot.getValue(StudentAttendInfor.class);
+                            StudentAttendInfor attendInfor = snapshot.getValue(StudentAttendInfor.class);
 
-                        attendInfors.add(attendInfor);
+                            attendInfors.add(attendInfor);
 
+
+                        }
+                        else {
+                            StudentAttendInfor newAttendInfor = new StudentAttendInfor(UUID,-2);
+                            attendInfors.add(newAttendInfor);
+                        }
+                        adapter.notifyDataSetChanged();
+                        activity.setStatistical();
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
                     }
-                    else {
-                        StudentAttendInfor newAttendInfor = new StudentAttendInfor(UUID,-2);
-                        attendInfors.add(newAttendInfor);
-                    }
-                    adapter.notifyDataSetChanged();
-                    activity.setStatistical();
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
+                });
+            }
         }
 
     }

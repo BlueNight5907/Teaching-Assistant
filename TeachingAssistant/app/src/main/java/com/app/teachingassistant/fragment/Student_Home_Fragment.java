@@ -3,6 +3,7 @@ package com.app.teachingassistant.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,8 +27,11 @@ import com.app.teachingassistant.config.Student_Attendance_List_Recycle_Adapter;
 import com.app.teachingassistant.model.Attendance_Infor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -56,6 +60,7 @@ public class Student_Home_Fragment extends Fragment {
     FirebaseUser user;
     DatabaseReference classRef,userRef;
     TextView className,teacherName;
+    Student_Attendance_List_Recycle_Adapter student_attendance_list_recycle_adapter;
 
     public Student_Home_Fragment() {
         // Required empty public constructor
@@ -116,7 +121,7 @@ public class Student_Home_Fragment extends Fragment {
 
 
         //Load danh sách điểm danh
-        Student_Attendance_List_Recycle_Adapter student_attendance_list_recycle_adapter = new Student_Attendance_List_Recycle_Adapter(getActivity(),attendance_list);
+        student_attendance_list_recycle_adapter = new Student_Attendance_List_Recycle_Adapter(getActivity(),attendance_list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         attendance_list_recycler_view.setItemAnimator(new DefaultItemAnimator());
         attendance_list_recycler_view.setLayoutManager(layoutManager);
@@ -125,6 +130,25 @@ public class Student_Home_Fragment extends Fragment {
         loadAll();
         return view;
     }
+    public void loadAttendancelist(){
+        String keyID = ClassDAO.getInstance().getCurrentClass().getKeyID();
+        DatabaseReference attendRef = FirebaseDatabase.getInstance().getReference("Attendances").child(keyID);
+        attendRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot item:snapshot.getChildren()){
+                    Attendance_Infor temp = item.getValue(Attendance_Infor.class);
+                    attendance_list.add(temp);
+                    student_attendance_list_recycle_adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     public void finish(){
         finish();
@@ -132,5 +156,6 @@ public class Student_Home_Fragment extends Fragment {
     private void loadAll(){
         className.setText(ClassDAO.getInstance().getCurrentClass().getClassName());
         teacherName.setText(ClassDAO.getInstance().getCurrentClass().getTeacherName());
+        loadAttendancelist();
     }
 }
