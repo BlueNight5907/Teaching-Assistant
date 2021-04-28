@@ -3,6 +3,7 @@ package com.app.teachingassistant;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -91,14 +92,14 @@ public class TeacherClass extends AppCompatActivity {
             }
         });
         drawerLayout.addDrawerListener(myDrawlayoutListener);
-
         actionBar.setTitle("Lớp học");
         fragment = new Teacher_Home_Fragment();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         loadFragment(fragment);
-
-
-
-
     }
 
     @Override
@@ -170,6 +171,8 @@ public class TeacherClass extends AppCompatActivity {
     };
     //Load Fragment
     private void loadFragment(Fragment fragment) {
+        Log.d("check fragment active", "loadFragment: hello");
+
         // load fragment
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);

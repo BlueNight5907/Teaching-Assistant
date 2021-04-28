@@ -3,6 +3,7 @@ package com.app.teachingassistant.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -86,13 +87,6 @@ public class Teacher_Attendance_Fragment extends Fragment {
             mParam1 = getArguments().getString(TAG);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user == null){
-            finish();
-        }
-        classRef = FirebaseDatabase.getInstance().getReference("Class").child(ClassDAO.getInstance().getCurrentClass().getKeyID());
-        userRef = FirebaseDatabase.getInstance().getReference("Users");
-        attendRef = FirebaseDatabase.getInstance().getReference("Attendances").child(ClassDAO.getInstance().getCurrentClass().getKeyID());
     }
     public void closeDialog(){
         loadingDialog.stopLoadingAlertDialog();
@@ -112,6 +106,20 @@ public class Teacher_Attendance_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.teacher_class_attendance_fragment, container, false);
+        // Inflate the layout for this fragment
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            finish();
+        }
+        classRef = FirebaseDatabase.getInstance().getReference("Class").child(ClassDAO.getInstance().getCurrentClass().getKeyID());
+        userRef = FirebaseDatabase.getInstance().getReference("Users");
+        attendRef = FirebaseDatabase.getInstance().getReference("Attendances").child(ClassDAO.getInstance().getCurrentClass().getKeyID());
         //Thiết lập recycler view
         recyclerView = view.findViewById(R.id.attendance_list);
         teacher_attendance_list_recycle_adapter = new Teacher_Attendance_List_Recycle_Adapter(getActivity(),attendance_list);
@@ -136,10 +144,6 @@ public class Teacher_Attendance_Fragment extends Fragment {
                 getActivity().startActivity(intent);
             }
         });
-
-
-        // Inflate the layout for this fragment
-        return view;
     }
 
     public void finish(){

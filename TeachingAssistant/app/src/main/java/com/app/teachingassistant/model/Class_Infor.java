@@ -10,10 +10,10 @@ public class Class_Infor {
     private String keyID;
     ArrayList<String> studentList;
     ArrayList<String> studentToAttend;
-    ArrayList<String> attendanceKeyList;
+    private int backgroundtheme;
     private String chatKey;
     public Class_Infor(String className,String teacherName,String teacherUUID,int classPeriod,String keyID
-            , ArrayList<String> studentList, ArrayList<String> studentToAttend, ArrayList<String>attendanceKeyList,String chatKey){
+            , ArrayList<String> studentList, ArrayList<String> studentToAttend, int backgroundtheme,String chatKey){
             this.className = className;
             this.teacherName = teacherName;
             this.teacherUUID = teacherUUID;
@@ -21,7 +21,7 @@ public class Class_Infor {
             this.keyID = keyID;
             this.studentList = studentList;
             this.studentToAttend = studentToAttend;
-            this.attendanceKeyList = attendanceKeyList;
+            this.backgroundtheme = backgroundtheme;
             this.chatKey = chatKey;
     }
     public  Class_Infor(){
@@ -32,7 +32,7 @@ public class Class_Infor {
         this.keyID = "";
         this.studentList = null;
         this.studentToAttend = null;
-        this.attendanceKeyList = null;
+        this.backgroundtheme = 1;
         this.chatKey = "";
     }
 
@@ -92,12 +92,12 @@ public class Class_Infor {
         this.studentToAttend = studentToAttend;
     }
 
-    public ArrayList<String> getAttendanceKeyList() {
-        return attendanceKeyList;
+    public int getBackgroundtheme() {
+        return backgroundtheme;
     }
 
-    public void setAttendanceKeyList(ArrayList<String> attendanceKeyList) {
-        this.attendanceKeyList = attendanceKeyList;
+    public void setBackgroundtheme(int backgroundtheme) {
+        this.backgroundtheme = backgroundtheme;
     }
 
     public String getChatKey() {

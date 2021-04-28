@@ -2,6 +2,7 @@ package com.app.teachingassistant.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -89,9 +90,7 @@ public class Teacher_People_Fragment extends Fragment {
             mParam1 = getArguments().getString(TAG);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        classRef = FirebaseDatabase.getInstance().getReference("Class");
-        userRef = FirebaseDatabase.getInstance().getReference("Users");
+
     }
 
     @Override
@@ -99,6 +98,19 @@ public class Teacher_People_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.teacher_class_people_fragment, container, false);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(TAG);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        classRef = FirebaseDatabase.getInstance().getReference("Class");
+        userRef = FirebaseDatabase.getInstance().getReference("Users");
         //Ẩn đi thanh option do dùng chung layout
         peopleOption = view.findViewById(R.id.class_people_item_more_option);
         peopleOption.setVisibility(View.GONE);
@@ -137,8 +149,8 @@ public class Teacher_People_Fragment extends Fragment {
         teacherName = view.findViewById(R.id.people_name);
         teacherIMG = view.findViewById(R.id.people_img);
         loadAll();
-        return view;
     }
+
     public void addStdtoList(User user){
         userArrayList.add(user);
         student_list_recycle_adapter.notifyDataSetChanged();

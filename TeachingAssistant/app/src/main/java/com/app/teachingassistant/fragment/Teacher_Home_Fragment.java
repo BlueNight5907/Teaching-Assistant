@@ -3,6 +3,7 @@ package com.app.teachingassistant.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -25,6 +27,7 @@ import com.app.teachingassistant.DAO.ClassDAO;
 import com.app.teachingassistant.R;
 import com.app.teachingassistant.TeacherClass;
 import com.app.teachingassistant.Teacher_Home;
+import com.app.teachingassistant.config.BackgroundDrawable;
 import com.app.teachingassistant.config.Student_Attendance_List_Recycle_Adapter;
 import com.app.teachingassistant.config.Teacher_Attendance_List_Recycle_Adapter;
 import com.app.teachingassistant.model.Attendance_Infor;
@@ -61,6 +64,7 @@ public class Teacher_Home_Fragment extends Fragment {
     DatabaseReference classRef,userRef,attendRef;
     Teacher_Attendance_List_Recycle_Adapter teacher_attendance_list_recycle_adapter;
     TextView className,classMembers;
+    ImageView backgroundImage;
 
     public Teacher_Home_Fragment() {
         // Required empty public constructor
@@ -91,13 +95,6 @@ public class Teacher_Home_Fragment extends Fragment {
             mParam1 = getArguments().getString(TAG);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user == null){
-            finish();
-        }
-        classRef = FirebaseDatabase.getInstance().getReference("Class").child(ClassDAO.getInstance().getCurrentClass().getKeyID());
-        userRef = FirebaseDatabase.getInstance().getReference("Users");
-        attendRef = FirebaseDatabase.getInstance().getReference("Attendances").child(ClassDAO.getInstance().getCurrentClass().getKeyID());
     }
 
     @Override
@@ -105,6 +102,19 @@ public class Teacher_Home_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.teacher_class_home_fragment, container, false);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            finish();
+        }
+        classRef = FirebaseDatabase.getInstance().getReference("Class").child(ClassDAO.getInstance().getCurrentClass().getKeyID());
+        userRef = FirebaseDatabase.getInstance().getReference("Users");
+        attendRef = FirebaseDatabase.getInstance().getReference("Attendances").child(ClassDAO.getInstance().getCurrentClass().getKeyID());
         //Khai báo các thành phần trong layout fragment
         classEventLayout = view.findViewById(R.id.event_available_layout);
         classInforLayout = view.findViewById(R.id.student_main_class_item_relative);
@@ -112,9 +122,11 @@ public class Teacher_Home_Fragment extends Fragment {
         attendance_list_recycler_view = view.findViewById(R.id.attendance_list);
         className = view.findViewById(R.id.student_home_classname);
         classMembers = view.findViewById(R.id.student_home_teacher_name);
+        backgroundImage = view.findViewById(R.id.class_background_image);
 
 
         //Thay đổi các thông tin của layout thông tin lớp học, ẩn đi phần event do xài lại layout
+        backgroundImage.setImageResource(BackgroundDrawable.getInstance().getBackGround(ClassDAO.getInstance().getCurrentClass().getBackgroundtheme()));
         float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,150, this.getResources().getDisplayMetrics());
         float margin_pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,10, this.getResources().getDisplayMetrics());
         classEventLayout.setVisibility(View.GONE);
@@ -138,8 +150,8 @@ public class Teacher_Home_Fragment extends Fragment {
         attendance_list_recycler_view.setLayoutManager(layoutManager);
         attendance_list_recycler_view.setAdapter(teacher_attendance_list_recycle_adapter);
         loadAll();
-        return view;
     }
+
     private void loadAllAttendancesList(){
         AttendanceDAO.getInstance().loadAllAttendancesListHome(attendRef,attendance_list,teacher_attendance_list_recycle_adapter, Teacher_Home_Fragment.this);
     }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -89,7 +90,9 @@ public class Teacher_Home_Classlist_Adapter extends RecyclerView.Adapter<Teacher
         LinearLayout layout;
         RelativeLayout relativeLayout;
         LoadingDialog loadingDialog = new LoadingDialog(mActivity);
+        ImageView background;
         String do_action[] = {"Đóng","Xóa lớp học"};
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             layout = itemView.findViewById(R.id.event_available_layout);
@@ -98,6 +101,7 @@ public class Teacher_Home_Classlist_Adapter extends RecyclerView.Adapter<Teacher
             classMembers = itemView.findViewById(R.id.student_home_teacher_name);
             option = itemView.findViewById(R.id.class_item_more_option);
             event_infor = itemView.findViewById(R.id.event_infor);
+            background = itemView.findViewById(R.id.class_background_image);
             ArrayAdapter<String>adapter = new ArrayAdapter<String>(mActivity, android.R.layout.simple_spinner_item,do_action);
             adapter.setDropDownViewResource(R.layout.spinner_list_item);
             option.setAdapter(adapter);
@@ -111,6 +115,8 @@ public class Teacher_Home_Classlist_Adapter extends RecyclerView.Adapter<Teacher
             else {
                 classMembers.setText(String.valueOf(class_infor.getStudentList().size())+" học viên");
             }
+            int backgroundThemeId = class_infor.getBackgroundtheme();
+            background.setImageResource(BackgroundDrawable.getInstance().getBackGround(backgroundThemeId));
             option.setTag(class_infor.getKeyID());
             option.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override

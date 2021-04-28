@@ -38,6 +38,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.teachingassistant.DAO.AccountDAO;
 import com.app.teachingassistant.DAO.ClassDAO;
+import com.app.teachingassistant.config.BackgroundDrawable;
 import com.app.teachingassistant.config.Student_Attendance_List_Recycle_Adapter;
 import com.app.teachingassistant.config.Student_Home_Classlist_Recycle_Adapter;
 import com.app.teachingassistant.dialog.LoadingDialog;
@@ -70,14 +71,12 @@ public class CreateClass extends AppCompatActivity {
     DatabaseReference dtb;
     CardView cardView;
     ImageView imageView;
+    LinearLayout linearLayout;
     final LoadingDialog loadingDialog = new LoadingDialog(this);
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_class);
-        Spinner spinner;
-        LinearLayout linearLayout;
-        TextView theme_name;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
@@ -87,22 +86,8 @@ public class CreateClass extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setTitle("Tạo lớp học");
-        spinner = findViewById(R.id.theme_option);
+        themeOption = findViewById(R.id.theme_option);
         linearLayout = findViewById(R.id.theme_option_btn);
-        String do_action[] = {"Hóa học","Công nghệ","Giáo dục","Toán học"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateClass.this, android.R.layout.simple_spinner_item,do_action);
-        adapter.setDropDownViewResource(R.layout.spinner_list_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null){
             finish();
@@ -110,7 +95,6 @@ public class CreateClass extends AppCompatActivity {
          dtb = FirebaseDatabase.getInstance().getReference("Class");
         //Khai báo các thành phần
         ////////////////////////////////////////////////////////////////////////////////////
-        themeOption = findViewById(R.id.theme_option);
         className = findViewById(R.id.class_name);
         classPeriod = findViewById(R.id.period_num);
         createClass = findViewById(R.id.creater_class_btn);
@@ -126,6 +110,20 @@ public class CreateClass extends AppCompatActivity {
                 createClassProfile();
             }
         });
+        String do_action[] = {"Hóa học","Học đường thân thiện","Sắc màu","Công nghệ","Tối giản","Toán học","Thành phố","Sống động","Ánh trăng","Chiều tối"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(CreateClass.this, android.R.layout.simple_spinner_item,do_action);
+        adapter.setDropDownViewResource(R.layout.spinner_list_item);
+        themeOption.setAdapter(adapter);
+        themeOption.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                imageView.setImageResource(BackgroundDrawable.getInstance().getBackGround(position+1));
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
     private void clearAll(){
         themeOption.setSelection(0);
@@ -137,11 +135,11 @@ public class CreateClass extends AppCompatActivity {
         loadingDialog.startLoadingAlertDialog();
         String name = className.getText().toString();
         int period = Integer.parseInt(classPeriod.getText().toString());
-        int backgroundSelected = (int)themeOption.getSelectedItemId();
+        int backgroundSelected = (int)themeOption.getSelectedItemId()+1;
         String UUID = user.getUid();
         String teacherName = AccountDAO.getInstance().getCurrentUser().getName();
         String keyID = dtb.push().getKey();
-        Class_Infor class_infor = new Class_Infor(name,teacherName,UUID,period,keyID,null,null,null,keyID);
+        Class_Infor class_infor = new Class_Infor(name,teacherName,UUID,period,keyID,null,null,backgroundSelected,keyID);
         //Xét xem lớp học đó đã tồn tại hay chưa
         DatabaseReference classInfor = FirebaseDatabase.getInstance().getReference("Users").child(UUID).child("ClassListCreated").child(name);
         classInfor.addListenerForSingleValueEvent(new ValueEventListener() {
