@@ -127,6 +127,7 @@ public class Student_Home_Fragment extends Fragment {
         attendance_list_recycler_view.setLayoutManager(layoutManager);
         attendance_list_recycler_view.setAdapter(student_attendance_list_recycle_adapter);
 
+
         loadAll();
         return view;
     }

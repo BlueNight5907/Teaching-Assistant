@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class Student_Attendance_List_Recycle_Adapter extends RecyclerView.Adapter<Student_Attendance_List_Recycle_Adapter.MyViewHolder> {
     private Activity mActivity;
     private ArrayList<Attendance_Infor> attendance_list;
+    private String a = "5";
 
     public Student_Attendance_List_Recycle_Adapter(Activity activity,ArrayList attendance_list) {
         super();
