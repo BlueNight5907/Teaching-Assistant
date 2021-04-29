@@ -25,7 +25,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <com.google.android.material.appbar.AppBarLayout
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -35,6 +35,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </include>
-    </com.google.android.material.appbar.AppBarLayout>
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

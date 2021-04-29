@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +21,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.app.teachingassistant.DAO.AccountDAO;
+import com.app.teachingassistant.DAO.ClassDAO;
+import com.app.teachingassistant.config.BackgroundDrawable;
 import com.app.teachingassistant.fragment.Student_Home_Fragment;
 import com.app.teachingassistant.fragment.Student_People_Fragment;
 import com.app.teachingassistant.fragment.Teacher_Attendance_Fragment;
@@ -26,6 +31,8 @@ import com.app.teachingassistant.fragment.Teacher_Home_Fragment;
 import com.app.teachingassistant.fragment.Teacher_People_Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -35,12 +42,19 @@ public class TeacherClass extends AppCompatActivity {
     CircleImageView userAvt;
     ActionBar actionBar;
     Fragment fragment;
+    TextView txtName,txtRole,smallClassName,smallTeacherName;
+    LinearLayout manageUser;
+    CircleImageView lgUserAvt,smallClassImg;
+    FirebaseUser user;
+
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.teacher_class);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
 
         userAvt = findViewById(R.id.user_logo_toolbar);
@@ -93,6 +107,31 @@ public class TeacherClass extends AppCompatActivity {
         });
         drawerLayout.addDrawerListener(myDrawlayoutListener);
         actionBar.setTitle("Lớp học");
+        /////////////////////////////////////////////////////////////////
+        View header = sidebar.getHeaderView(0);
+        txtName = (TextView)header.findViewById(R.id.user_name);
+        txtRole = (TextView)header.findViewById(R.id.user_role);
+        lgUserAvt = (CircleImageView)header.findViewById(R.id.user_logo_toolbar);
+        txtName.setText(AccountDAO.getInstance().getCurrentUser().getName());
+        txtRole.setText(AccountDAO.getInstance().getCurrentUser().getRole());
+        if(AccountDAO.getInstance().getCurrentUser().isHasProfileUrl()){
+            AccountDAO.getInstance().loadProfileImg(user.getUid(),lgUserAvt);
+        }
+        manageUser = (LinearLayout)header.findViewById(R.id.go_to_manageUser);
+        manageUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TeacherClass.this,UserManage.class);
+                startActivity(intent);
+            }
+        });
+        smallClassImg = findViewById(R.id.small_class_img);
+        smallClassName = findViewById(R.id.small_class_name);
+        smallTeacherName = findViewById(R.id.small_teachername);
+
+        smallClassName.setText(ClassDAO.getInstance().getCurrentClass().getClassName());
+        smallTeacherName.setText(ClassDAO.getInstance().getCurrentClass().getTeacherName());
+        smallClassImg.setImageDrawable(getDrawable(BackgroundDrawable.getInstance().getBackGround(ClassDAO.getInstance().getCurrentClass().getBackgroundtheme())));
         fragment = new Teacher_Home_Fragment();
     }
 
@@ -115,6 +154,9 @@ public class TeacherClass extends AppCompatActivity {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            case R.id.setting:
+                Intent intent = new Intent(this,ChangeClassInfor.class);
+                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

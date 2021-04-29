@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/avatar"
+        android:id="@+id/setting"
         app:showAsAction="ifRoom"
-        android:title="@string/action_avt"
-        android:icon="@drawable/ic_baseline_more_vert_24">
+        android:title="Chỉnh sửa"
+        android:icon="@drawable/ic_baseline_settings_suggest_24">
     </item>
 
 

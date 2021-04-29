@@ -1,9 +1,12 @@
 package com.app.teachingassistant.DAO;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.app.teachingassistant.ChangeClassInfor;
+import com.app.teachingassistant.dialog.LoadingDialog;
 import com.app.teachingassistant.model.Class_Infor;
 import com.app.teachingassistant.model.Result;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -55,6 +58,37 @@ public class ClassDAO {
             }
         });
         return result[0];
+    }
+    public void changeClassProfile(DatabaseReference dtb, String keyID,String UUID , Class_Infor class_infor, ChangeClassInfor activity){
+        Map<String,Object> map = new HashMap<>();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        map.put("Users/"+UUID+"/ClassListCreated/"+currentClass.getClassName(),null);
+        map.put("Users/"+UUID+"/ClassListCreated/"+class_infor.getClassName(),keyID);
+        map.put("Class/"+keyID+"/className",class_infor.getClassName());
+        map.put("Class/"+keyID+"/classPeriod",class_infor.getClassPeriod());
+        map.put("Class/"+keyID+"/backgroundtheme",class_infor.getBackgroundtheme());
+
+       ref.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                activity.closeDialog();
+                if(!task.isSuccessful()){
+                    activity.makeToastLong("Cập nhật thông tin thất bại");
+                    return;
+                }
+                activity.makeToastLong("Cập nhật thông tin thành công");
+                currentClass.setClassName(class_infor.getClassName());
+                currentClass.setBackgroundtheme(class_infor.getBackgroundtheme());
+                currentClass.setClassPeriod(class_infor.getClassPeriod());
+                activity.finish();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                activity.closeDialog();
+                activity.makeToastLong("Cập nhật thông tin thất bại");
+            }
+        });
     }
     public Result attendClass(FirebaseDatabase dtb, String UUID, String classCode){
         final Result[] result = {new Result(false, "Gửi yêu cầu tham gia thành công")};

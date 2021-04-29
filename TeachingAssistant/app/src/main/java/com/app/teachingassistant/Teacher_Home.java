@@ -140,6 +140,11 @@ public class Teacher_Home extends AppCompatActivity {
         txtName = (TextView)header.findViewById(R.id.user_name);
         txtRole = (TextView)header.findViewById(R.id.user_role);
         lgUserAvt = (CircleImageView)header.findViewById(R.id.user_logo_toolbar);
+        txtName.setText(AccountDAO.getInstance().getCurrentUser().getName());
+        txtRole.setText(AccountDAO.getInstance().getCurrentUser().getRole());
+        if(AccountDAO.getInstance().getCurrentUser().isHasProfileUrl()){
+            AccountDAO.getInstance().loadProfileImg(user.getUid(),lgUserAvt);
+        }
         manageUser = (LinearLayout)header.findViewById(R.id.go_to_manageUser);
         manageUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,7 +242,7 @@ public class Teacher_Home extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.student_menu_has_avt, menu);
+
         return true;
     }
 

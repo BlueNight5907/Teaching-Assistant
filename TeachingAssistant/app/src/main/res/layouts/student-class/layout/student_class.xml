@@ -8,37 +8,31 @@
     <!-- Thành phần con thứ nhất -->
     <include layout="@layout/relative_student_class_layout"></include>
     <!-- Thành phần con thứ hai -->
-    <ScrollView
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/sidebar"
         android:layout_width="320dp"
         android:layout_height="match_parent"
-        android:overScrollMode="ifContentScrolls"
         android:fitsSystemWindows="true"
         android:layout_gravity="start"
-        >
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/sidebar"
+        app:headerLayout="@layout/nav_sidebar_header"
+        android:theme="@style/AppTheme"
+        app:menu="@menu/student_sidebar_menu"
+        android:scrollbars="vertical">
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:headerLayout="@layout/nav_sidebar_header"
-            android:theme="@style/AppTheme"
-            app:menu="@menu/student_sidebar_menu"
-            android:scrollbars="vertical"
-            android:layout_gravity="start">
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="360dp"
-                android:nestedScrollingEnabled="false">
-                <include layout="@layout/sidebar_item"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="360dp"
+            android:nestedScrollingEnabled="false">
+            <include layout="@layout/sidebar_item"/>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:background="@color/white">
-                </View>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </com.google.android.material.navigation.NavigationView>
-    </ScrollView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                >
+            </View>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </com.google.android.material.navigation.NavigationView>
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

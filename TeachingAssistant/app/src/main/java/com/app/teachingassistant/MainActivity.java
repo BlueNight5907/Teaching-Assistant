@@ -159,6 +159,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        txtName.setText(AccountDAO.getInstance().getCurrentUser().getName());
+        txtRole.setText(AccountDAO.getInstance().getCurrentUser().getRole());
+        if(AccountDAO.getInstance().getCurrentUser().isHasProfileUrl()){
+            AccountDAO.getInstance().loadProfileImg(user.getUid(),lgUserAvt);
+        }
 
 
         //Load danh sách lớp
@@ -255,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.student_menu_has_avt, menu);
+
         return true;
     }
 

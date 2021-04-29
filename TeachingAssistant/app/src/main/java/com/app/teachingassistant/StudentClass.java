@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,20 +20,29 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.app.teachingassistant.DAO.AccountDAO;
+import com.app.teachingassistant.DAO.ClassDAO;
+import com.app.teachingassistant.config.BackgroundDrawable;
 import com.app.teachingassistant.fragment.Student_Home_Fragment;
 import com.app.teachingassistant.fragment.Student_People_Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class StudentClass extends AppCompatActivity {
+    CircleImageView lgUserAvt,smallClassImg;
     DrawerLayout drawerLayout;
     NavigationView sidebar;
     CircleImageView userAvt;
     ActionBar actionBar;
     Fragment fragment;
     Button openMessBtn;
+    FirebaseUser user;
+    TextView txtName,txtRole,smallClassName,smallTeacherName;
+    LinearLayout manageUser;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +62,7 @@ public class StudentClass extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
 
         Drawable hamburger_button = getResources().getDrawable(R.drawable.hamburger_icon);
@@ -99,6 +111,30 @@ public class StudentClass extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        View header = sidebar.getHeaderView(0);
+        txtName = (TextView)header.findViewById(R.id.user_name);
+        txtRole = (TextView)header.findViewById(R.id.user_role);
+        lgUserAvt = (CircleImageView)header.findViewById(R.id.user_logo_toolbar);
+        manageUser = (LinearLayout)header.findViewById(R.id.go_to_manageUser);
+        manageUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StudentClass.this,UserManage.class);
+                startActivity(intent);
+            }
+        });
+        txtName.setText(AccountDAO.getInstance().getCurrentUser().getName());
+        txtRole.setText(AccountDAO.getInstance().getCurrentUser().getRole());
+        if(AccountDAO.getInstance().getCurrentUser().isHasProfileUrl()){
+            AccountDAO.getInstance().loadProfileImg(user.getUid(),lgUserAvt);
+        }
+        smallClassImg = findViewById(R.id.small_class_img);
+        smallClassName = findViewById(R.id.small_class_name);
+        smallTeacherName = findViewById(R.id.small_teachername);
+
+        smallClassName.setText(ClassDAO.getInstance().getCurrentClass().getClassName());
+        smallTeacherName.setText(ClassDAO.getInstance().getCurrentClass().getTeacherName());
+        smallClassImg.setImageDrawable(getDrawable(BackgroundDrawable.getInstance().getBackGround(ClassDAO.getInstance().getCurrentClass().getBackgroundtheme())));
 
 
 
