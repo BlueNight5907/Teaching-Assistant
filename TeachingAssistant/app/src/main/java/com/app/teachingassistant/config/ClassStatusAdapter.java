@@ -51,7 +51,7 @@ public class ClassStatusAdapter extends RecyclerView.Adapter<ClassStatusAdapter.
 
     DatabaseReference classRef;
 
-    float count;
+    float count = 0;
 
     public ClassStatusAdapter(Activity context, ArrayList<String> students, ArrayList<StudentBannedInfor> bannedInfors, ArrayList<StudentBannedList> studentBannedLists) {
         super();
@@ -102,7 +102,6 @@ public class ClassStatusAdapter extends RecyclerView.Adapter<ClassStatusAdapter.
         }
 
         public void bind(StudentBannedInfor data , int position) {
-            count = 0;
             String UUID = data.getUUID();
             if(data == null) return;
             stt.setText(String.valueOf(position));
@@ -137,6 +136,7 @@ public class ClassStatusAdapter extends RecyclerView.Adapter<ClassStatusAdapter.
 
                                     absent_count.setText(String.valueOf(count));
                                     studentBannedLists.get(position).setAbsentDates(count);
+                                    count = 0;
                                 }
                             }
 
@@ -155,7 +155,7 @@ public class ClassStatusAdapter extends RecyclerView.Adapter<ClassStatusAdapter.
                             AccountDAO.getInstance().loadProfileImg(UUID,image);
                         }
                         studentBannedLists.get(position).setName(user.getName());
-                        studentBannedLists.get(position).setUUID(user.getUUID());
+                        studentBannedLists.get(position).setUUID(user.getSID());
                         studentBannedLists.get(position).setState(data.getState());
                     }
                 }

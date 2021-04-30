@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:paddingTop="20dp"
+    >
+
+    <!-- NOTE: This list should be displayed in a list
+    instead of nested layouts -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18dp"
+        android:text="Chọn định dạng"
+        android:textColor="#464747"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"/>
+
+
+    <LinearLayout
+        android:id="@+id/output_Excel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:paddingBottom="12dp"
+        android:paddingLeft="@dimen/activity_margin"
+        android:paddingRight="@dimen/activity_margin"
+        android:paddingTop="12dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="32dp"
+            android:src="@drawable/ic_excel" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Định dạng Excel"
+            android:textColor="@color/dracula_orchid"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/output_PDF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:paddingBottom="12dp"
+        android:paddingLeft="@dimen/activity_margin"
+        android:paddingRight="@dimen/activity_margin"
+        android:paddingTop="12dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="32dp"
+            android:src="@drawable/ic_pdf"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Định dang PDF"
+            android:textColor="@color/dracula_orchid"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</LinearLayout>
