@@ -25,6 +25,7 @@ import com.app.teachingassistant.R;
 import com.app.teachingassistant.dialog.LoadingDialog;
 import com.app.teachingassistant.model.StudentAttendInfor;
 import com.app.teachingassistant.model.StudentBannedInfor;
+import com.app.teachingassistant.model.StudentBannedList;
 import com.app.teachingassistant.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -46,16 +47,18 @@ public class ClassStatusAdapter extends RecyclerView.Adapter<ClassStatusAdapter.
     private Activity context;
     private ArrayList<String> students;
     private ArrayList<StudentBannedInfor> bannedInfors;
+    private ArrayList<StudentBannedList> studentBannedLists;
 
     DatabaseReference classRef;
 
     float count;
 
-    public ClassStatusAdapter(Activity context, ArrayList<String> students, ArrayList<StudentBannedInfor> bannedInfors) {
+    public ClassStatusAdapter(Activity context, ArrayList<String> students, ArrayList<StudentBannedInfor> bannedInfors, ArrayList<StudentBannedList> studentBannedLists) {
         super();
         this.context = context;
         this.students = students;
         this.bannedInfors = bannedInfors;
+        this.studentBannedLists = studentBannedLists;
     }
 
     @NonNull
@@ -113,7 +116,7 @@ public class ClassStatusAdapter extends RecyclerView.Adapter<ClassStatusAdapter.
                                 if (snapshot.getValue() != null) {
                                     Log.d("snapshotNew", "onDataChange: "+snapshot);
                                     for (DataSnapshot item: snapshot.getChildren()) {
-                                        DataSnapshot temp = item.child("StudentStateList");
+                                        DataSnapshot temp = item.child("studentStateList");
                                         Log.d("snapshotNew", "onDataChange: "+temp);
                                         if (temp.getValue() != null) {
                                             for (DataSnapshot data: temp.getChildren()) {
@@ -133,6 +136,7 @@ public class ClassStatusAdapter extends RecyclerView.Adapter<ClassStatusAdapter.
                                     }
 
                                     absent_count.setText(String.valueOf(count));
+                                    studentBannedLists.get(position).setAbsentDates(count);
                                 }
                             }
 
@@ -150,6 +154,9 @@ public class ClassStatusAdapter extends RecyclerView.Adapter<ClassStatusAdapter.
                         if(user.isHasProfileUrl()){
                             AccountDAO.getInstance().loadProfileImg(UUID,image);
                         }
+                        studentBannedLists.get(position).setName(user.getName());
+                        studentBannedLists.get(position).setUUID(user.getUUID());
+                        studentBannedLists.get(position).setState(data.getState());
                     }
                 }
 
@@ -230,7 +237,7 @@ public class ClassStatusAdapter extends RecyclerView.Adapter<ClassStatusAdapter.
                     Map<String,Object> map = new HashMap<>();
                     map.put(user.getUUID(),user);
 
-                    classRef.child(ClassDAO.getInstance().getCurrentClass().getKeyID()).child("StudentBannedList").updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    classRef.child(ClassDAO.getInstance().getCurrentClass().getKeyID()).child("studentBannedList").updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             loadingDialog.stopLoadingAlertDialog();

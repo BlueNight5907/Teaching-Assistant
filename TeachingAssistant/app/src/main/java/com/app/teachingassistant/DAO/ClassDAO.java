@@ -14,6 +14,7 @@ import com.app.teachingassistant.model.Class_Infor;
 import com.app.teachingassistant.model.Result;
 import com.app.teachingassistant.model.StudentAttendInfor;
 import com.app.teachingassistant.model.StudentBannedInfor;
+import com.app.teachingassistant.model.StudentBannedList;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -175,21 +176,22 @@ public class ClassDAO {
         return map;
     }
 
-    public void loadAllStudentInAttendance(DatabaseReference ref, ArrayList<String> studentList, ArrayList<StudentBannedInfor> bannedInfors, ClassStatusAdapter adapter){
+    public void loadAllStudentInAttendance(DatabaseReference ref, ArrayList<String> studentList, ArrayList<StudentBannedInfor> bannedInfors, ClassStatusAdapter adapter, ArrayList<StudentBannedList> studentBannedLists){
         if(studentList != null){
             for(String UUID : studentList){
-                ref.child("StudentBannedList").child(UUID).addListenerForSingleValueEvent(new ValueEventListener() {
+                ref.child("studentBannedList").child(UUID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.getValue() != null){
                             StudentBannedInfor bannedInfor = snapshot.getValue(StudentBannedInfor.class);
                             bannedInfors.add(bannedInfor);
 
-
+                            studentBannedLists.add(new StudentBannedList());
                         }
                         else {
                             StudentBannedInfor newAttendInfor = new StudentBannedInfor(UUID,0);
                             bannedInfors.add(newAttendInfor);
+                            studentBannedLists.add(new StudentBannedList());
                         }
                         adapter.notifyDataSetChanged();
                     }
