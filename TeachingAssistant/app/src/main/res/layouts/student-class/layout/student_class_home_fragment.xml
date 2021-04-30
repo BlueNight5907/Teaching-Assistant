@@ -17,7 +17,7 @@
             android:layout_height="wrap_content">
             <include layout="@layout/student_main_class_item"></include>
         </RelativeLayout>
-        <include layout="@layout/student_state" android:layout_width="match_parent" android:layout_marginHorizontal="10dp" android:layout_marginBottom="15dp" android:layout_height="wrap_content"/>
+        <include layout="@layout/student_state" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/attendance_list"
             android:layout_width="match_parent"

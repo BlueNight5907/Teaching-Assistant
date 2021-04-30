@@ -172,8 +172,7 @@ public class Teacher_Home extends AppCompatActivity {
             }
         });
 
-        //Load các thông tin cần thiết
-        loadAllInfor();
+
 
     }
     //Tải lên các thôn tin lên màn hình chính
@@ -232,6 +231,8 @@ public class Teacher_Home extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
+        //Load các thông tin cần thiết
+        loadAllInfor();
     }
 
     @Override

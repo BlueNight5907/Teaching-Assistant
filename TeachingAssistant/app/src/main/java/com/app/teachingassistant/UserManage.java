@@ -515,14 +515,11 @@ public class UserManage extends AppCompatActivity {
             }
             AccountDAO.getInstance().getCurrentUser().setHasProfileUrl(true);
         }
-        Result res2 = AccountDAO.getInstance().updateProfiles(user.getUid(),AccountDAO.getInstance().getCurrentUser());
-        loadingDialog.stopLoadingAlertDialog();
-        if(res2.isError()){
-            Toast.makeText(UserManage.this,"Upload thông tin người dùng thất bại",Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Toast.makeText(UserManage.this,"Upload thông tin người dùng thành công",Toast.LENGTH_SHORT).show();
-        }
+        AccountDAO.getInstance().updateProfiles(user.getUid(),AccountDAO.getInstance().getCurrentUser(),loadingDialog,this);
+
+    }
+    public void makeToastLong(String message){
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
     }
     //Load ảnh từ storage
     private void loadImage(){

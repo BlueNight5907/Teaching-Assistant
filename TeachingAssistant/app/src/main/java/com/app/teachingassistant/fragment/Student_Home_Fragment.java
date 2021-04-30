@@ -9,22 +9,28 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.app.teachingassistant.Chat_Activity;
+import com.app.teachingassistant.DAO.AccountDAO;
 import com.app.teachingassistant.DAO.ClassDAO;
 import com.app.teachingassistant.R;
 import com.app.teachingassistant.TeacherClass;
+import com.app.teachingassistant.config.BackgroundDrawable;
 import com.app.teachingassistant.config.Student_Attendance_List_Recycle_Adapter;
 import com.app.teachingassistant.model.Attendance_Infor;
+import com.app.teachingassistant.model.StudentAttendInfor;
+import com.app.teachingassistant.model.StudentBannedInfor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -59,8 +65,9 @@ public class Student_Home_Fragment extends Fragment {
     Button openMessBtn;
     RecyclerView attendance_list_recycler_view;
     FirebaseUser user;
+    ImageView background;
     DatabaseReference classRef,userRef;
-    TextView className,teacherName;
+    TextView className,teacherName,studentName,totalStudyTxt,totalLateTxt,totalAbsentTxt,stateTxt;
     Student_Attendance_List_Recycle_Adapter student_attendance_list_recycle_adapter;
 
     public Student_Home_Fragment() {
@@ -109,6 +116,18 @@ public class Student_Home_Fragment extends Fragment {
         attendance_list_recycler_view = view.findViewById(R.id.attendance_list);
         className = view.findViewById(R.id.student_home_classname);
         teacherName = view.findViewById(R.id.student_home_teacher_name);
+        background = view.findViewById(R.id.class_background_image);
+
+
+        studentName = view.findViewById(R.id.textView);
+        totalStudyTxt = view.findViewById(R.id.total_study);
+        totalLateTxt = view.findViewById(R.id.total_late);
+        totalAbsentTxt = view.findViewById(R.id.total_absent);
+        stateTxt = view.findViewById(R.id.status);
+
+
+
+
 
 
         //Thay đổi các thông tin của layout thông tin lớp học, ẩn đi phần event do xài lại layout
@@ -151,6 +170,70 @@ public class Student_Home_Fragment extends Fragment {
             }
         });
     }
+    private void loadStudentState(){
+        studentName.setText(AccountDAO.getInstance().getCurrentUser().getName());
+        totalStudyTxt.setText(String.valueOf(ClassDAO.getInstance().getCurrentClass().getClassPeriod()));
+        String UUID = FirebaseAuth.getInstance().getUid();
+        final int[] lated = {0};
+        final int[] absent = {0};
+        FirebaseDatabase.getInstance().getReference("Attendances")
+                .child(ClassDAO.getInstance().getCurrentClass().getKeyID())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.getValue() != null) {
+                            for (DataSnapshot item: snapshot.getChildren()) {
+                                DataSnapshot temp = item.child("studentStateList");
+                                if (temp.getValue() != null) {
+                                    for (DataSnapshot data: temp.getChildren()) {
+                                        if (data != null) {
+                                            StudentAttendInfor std = data.getValue(StudentAttendInfor.class);
+                                            if (std.getUUID().equals(UUID)) {
+                                                if (std.getState() == 0) {
+                                                    lated[0] = lated[0] +1;
+
+                                                }
+                                                else if (std.getState() < 0) {
+                                                    absent[0] = absent[0] +1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                totalLateTxt.setText(lated[0]+" buổi");
+                                totalAbsentTxt.setText(absent[0]+" buổi");
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+        FirebaseDatabase.getInstance().getReference("Class").child(ClassDAO.getInstance().getCurrentClass()
+                .getKeyID()).child("studentBannedList").child(UUID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue()!=null){
+                    StudentBannedInfor data = snapshot.getValue(StudentBannedInfor.class);
+                    if(data.getState() == -1){
+
+                    }
+                    else {
+                        stateTxt.setText("Bình thường");
+                        stateTxt.setTextColor(getResources().getColor(R.color.mint_leaf));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     public void finish(){
         finish();
@@ -158,6 +241,9 @@ public class Student_Home_Fragment extends Fragment {
     private void loadAll(){
         className.setText(ClassDAO.getInstance().getCurrentClass().getClassName());
         teacherName.setText(ClassDAO.getInstance().getCurrentClass().getTeacherName());
+        background.setImageResource(BackgroundDrawable.getInstance().getBackGround(ClassDAO.getInstance().getCurrentClass().getBackgroundtheme()));
         loadAttendancelist();
+        loadStudentState();
+
     }
 }

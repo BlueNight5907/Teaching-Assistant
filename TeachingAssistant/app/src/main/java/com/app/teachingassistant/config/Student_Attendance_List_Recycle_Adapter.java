@@ -16,7 +16,10 @@ import com.app.teachingassistant.R;
 import com.app.teachingassistant.StudentAttendance;
 import com.app.teachingassistant.model.Attendance_Infor;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class Student_Attendance_List_Recycle_Adapter extends RecyclerView.Adapter<Student_Attendance_List_Recycle_Adapter.MyViewHolder> {
     private Activity mActivity;
@@ -47,18 +50,22 @@ public class Student_Attendance_List_Recycle_Adapter extends RecyclerView.Adapte
 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView attendance_name,date,status;
+        TextView attendance_name,date;
         LinearLayout new_layout;
+        Calendar cal = Calendar.getInstance();
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             new_layout = itemView.findViewById(R.id.attendance_new);
             attendance_name = itemView.findViewById(R.id.attendance_name);
             date = itemView.findViewById(R.id.attendace_date);
-            status = itemView.findViewById(R.id.attendance_status);
+
 
         }
         public  void bind(Attendance_Infor item,int position){
             attendance_name.setText(item.getName());
+            if(position != 0){
+                new_layout.setVisibility(View.GONE);
+            }
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -67,6 +74,11 @@ public class Student_Attendance_List_Recycle_Adapter extends RecyclerView.Adapte
                     mActivity.startActivity(intent);
                 }
             });
+            cal.setTimeInMillis(item.getCreateAt());
+            SimpleDateFormat dft = null;
+            dft = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+            String dateStr = dft.format(cal.getTime());
+            date.setText(dateStr);
         }
 
     }

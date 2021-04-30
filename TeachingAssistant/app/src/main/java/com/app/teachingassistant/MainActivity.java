@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        loadAllInfor();
+
     }
 
 
@@ -195,10 +195,8 @@ public class MainActivity extends AppCompatActivity {
         }
         txtName.setText(AccountDAO.getInstance().getCurrentUser().getName());
         txtRole.setText(AccountDAO.getInstance().getCurrentUser().getRole());
-
-
-
     }
+
 
     ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
@@ -222,6 +220,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadAllInfor();
+    }
 
     @Override
     protected void onPause() {
