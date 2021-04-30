@@ -6,9 +6,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.app.teachingassistant.ChangeClassInfor;
+import com.app.teachingassistant.Teacher_attendance;
+import com.app.teachingassistant.config.ClassStatusAdapter;
+import com.app.teachingassistant.config.Student_Adapter;
 import com.app.teachingassistant.dialog.LoadingDialog;
 import com.app.teachingassistant.model.Class_Infor;
 import com.app.teachingassistant.model.Result;
+import com.app.teachingassistant.model.StudentAttendInfor;
+import com.app.teachingassistant.model.StudentBannedInfor;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -170,6 +175,33 @@ public class ClassDAO {
         return map;
     }
 
+    public void loadAllStudentInAttendance(DatabaseReference ref, ArrayList<String> studentList, ArrayList<StudentBannedInfor> bannedInfors, ClassStatusAdapter adapter){
+        if(studentList != null){
+            for(String UUID : studentList){
+                ref.child("StudentBannedList").child(UUID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.getValue() != null){
+                            StudentBannedInfor bannedInfor = snapshot.getValue(StudentBannedInfor.class);
+                            bannedInfors.add(bannedInfor);
+
+
+                        }
+                        else {
+                            StudentBannedInfor newAttendInfor = new StudentBannedInfor(UUID,0);
+                            bannedInfors.add(newAttendInfor);
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        }
+
+    }
 
     public Class_Infor getCurrentClass() {
         return currentClass;
