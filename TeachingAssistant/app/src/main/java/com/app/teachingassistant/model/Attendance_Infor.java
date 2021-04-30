@@ -13,7 +13,7 @@ public class Attendance_Infor {
     private long endAt;
     private String type;
     private String keyID;
-    private Map<String,Object> StudentStateList;
+    private Map<String,StudentAttendInfor> StudentStateList;
     public Attendance_Infor(){
         this.name = "";
         this.describe ="";
@@ -23,7 +23,7 @@ public class Attendance_Infor {
         keyID = "";
         this.StudentStateList = new HashMap<>();
     }
-    public Attendance_Infor(String name,String describe,long createAt,long endAt,String type,String keyID,Map<String,Object>StudentStateList){
+    public Attendance_Infor(String name,String describe,long createAt,long endAt,String type,String keyID,Map<String,StudentAttendInfor>StudentStateList){
         this.name = name;
         this.describe = describe;
         this.createAt = createAt;
@@ -33,11 +33,11 @@ public class Attendance_Infor {
         this.StudentStateList = StudentStateList;
     }
 
-    public Map<String, Object> getStudentStateList() {
+    public Map<String, StudentAttendInfor> getStudentStateList() {
         return StudentStateList;
     }
 
-    public void setStudentStateList(Map<String, Object> studentStateList) {
+    public void setStudentStateList(Map<String, StudentAttendInfor> studentStateList) {
         StudentStateList = studentStateList;
     }
 

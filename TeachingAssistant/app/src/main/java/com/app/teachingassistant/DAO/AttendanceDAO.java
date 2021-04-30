@@ -51,7 +51,7 @@ public class AttendanceDAO {
         return instance;
     }
     public void createAttendanceManual(DatabaseReference dtb, String keyID , Attendance_Infor attendanceInfor, CreateAttendance_Manual activity){
-        Map<String,Object> attendInfors = new HashMap<>();
+        Map<String,StudentAttendInfor> attendInfors = new HashMap<>();
         if(ClassDAO.getInstance().getCurrentClass().getStudentList() != null){
             for(String UUID : ClassDAO.getInstance().getCurrentClass().getStudentList()){
                 StudentAttendInfor newAttendInfor = new StudentAttendInfor(UUID,-2);
@@ -114,7 +114,7 @@ public class AttendanceDAO {
     public void loadAllStudentInAttendance(DatabaseReference ref, ArrayList<String> studentList, ArrayList<StudentAttendInfor> attendInfors, Student_Adapter adapter, Teacher_attendance activity){
         if(studentList != null){
             for(String UUID : studentList){
-                ref.child("StudentStateList").child(UUID).addListenerForSingleValueEvent(new ValueEventListener() {
+                ref.child("studentStateList").child(UUID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.getValue() != null){
@@ -142,7 +142,7 @@ public class AttendanceDAO {
 
     }
     public void createAttendanceAuto(DatabaseReference dtb, String keyID , Attendance_Infor attendanceInfor, CreateAttendance_Auto activity){
-        Map<String,Object> attendInfors = new HashMap<>();
+        Map<String,StudentAttendInfor> attendInfors = new HashMap<>();
         if(ClassDAO.getInstance().getCurrentClass().getStudentList() != null){
             for(String UUID : ClassDAO.getInstance().getCurrentClass().getStudentList()){
                 StudentAttendInfor newAttendInfor = new StudentAttendInfor(UUID,-2);
