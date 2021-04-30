@@ -52,8 +52,6 @@ public class Login extends AppCompatActivity {
         password = findViewById(R.id.password_user);
         error = findViewById(R.id.error);
         error.setVisibility(View.GONE);
-        email.setText("henrypoter22@gmail.com");
-        password.setText("12345678");
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
