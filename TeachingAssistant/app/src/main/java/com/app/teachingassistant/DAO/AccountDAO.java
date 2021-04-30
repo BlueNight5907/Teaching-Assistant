@@ -7,7 +7,9 @@ import android.widget.Adapter;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.teachingassistant.UserManage;
 import com.app.teachingassistant.config.Accept_Student_Adapter;
+import com.app.teachingassistant.dialog.LoadingDialog;
 import com.app.teachingassistant.model.Message;
 import com.app.teachingassistant.model.Result;
 import com.app.teachingassistant.model.User;
@@ -29,6 +31,8 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -66,17 +70,32 @@ public class AccountDAO {
         }
         return result[0];
     }
-    public Result updateProfiles(String UUID, User user){
-        final Result[] result = {new Result(false, "Cập nhật thành công")};
-        ref.child(UUID).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+    public void updateProfiles(String UUID, User user, LoadingDialog loadingDialog, UserManage activity){
+        Map<String,Object> map = new HashMap<>();
+        map.put("gender",user.getGender());
+        map.put("hasProfileUrl",user.isHasProfileUrl());
+        map.put("sid",user.getSID());
+
+
+        ref.child(UUID).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+                loadingDialog.stopLoadingAlertDialog();
                 if(!task.isSuccessful()){
-                     result[0] = new Result(true,task.getException().toString());
+                    activity.makeToastLong("Cập nhật thông tin thất bại");
+                }
+                else {
+                    activity.makeToastLong("Cập nhật thông tin thành công");
                 }
             }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                loadingDialog.stopLoadingAlertDialog();
+                activity.makeToastLong("Cập nhật thông tin thất bại");
+            }
         });
-        return result[0];
+
     }
     public Result sendMessage(DatabaseReference chatRef, Message message){
         final Result[] result = {new Result(false, "Cập nhật thành công")};

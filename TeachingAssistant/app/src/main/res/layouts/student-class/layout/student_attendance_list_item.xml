@@ -52,19 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/attendance_name"
         app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/attendance_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
-        android:gravity="center|start"
-        android:text="Đã điểm danh"
-        android:textColor="@color/teal_700"
-        android:textSize="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-         />
+
 
     <LinearLayout
         android:id="@+id/attendance_new"

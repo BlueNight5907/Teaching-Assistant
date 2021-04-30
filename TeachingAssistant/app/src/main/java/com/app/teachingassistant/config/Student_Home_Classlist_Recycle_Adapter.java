@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -90,6 +91,7 @@ public class Student_Home_Classlist_Recycle_Adapter extends RecyclerView.Adapter
         LinearLayout layout;
         boolean initial = true;
         RelativeLayout relativeLayout;
+        ImageView background;
         ArrayList<String> do_action =new ArrayList<>(Arrays.asList("Đóng","Hủy đăng ký"));
         LoadingDialog loadingDialog = new LoadingDialog(mActivity);
         public MyViewHolder(@NonNull View itemView) {
@@ -101,6 +103,7 @@ public class Student_Home_Classlist_Recycle_Adapter extends RecyclerView.Adapter
             teachername = itemView.findViewById(R.id.student_home_teacher_name);
             option = itemView.findViewById(R.id.class_item_more_option);
             event_infor = itemView.findViewById(R.id.event_infor);
+            background = itemView.findViewById(R.id.class_background_image);
 
             adapter = new ArrayAdapter<String>(mActivity, android.R.layout.simple_spinner_item,do_action);
             adapter.setDropDownViewResource(R.layout.spinner_list_item);
@@ -111,6 +114,7 @@ public class Student_Home_Classlist_Recycle_Adapter extends RecyclerView.Adapter
             classname.setText(class_infor.getClassName());
             teachername.setText(class_infor.getTeacherName());
             option.setTag(class_infor.getKeyID());
+            background.setImageResource(BackgroundDrawable.getInstance().getBackGround(class_infor.getBackgroundtheme()));
             option.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
