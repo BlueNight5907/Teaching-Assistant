@@ -131,7 +131,7 @@ public class Teacher_attendance extends AppCompatActivity {
         for(StudentAttendInfor item:attendInforsList){
             map.put(item.getUUID(),item);
         }
-        attendRef.child(AttendanceDAO.getInstance().getCurrentAttendance().getKeyID()).child("StudentStateList").updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+        attendRef.child(AttendanceDAO.getInstance().getCurrentAttendance().getKeyID()).child("studentStateList").updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 loadingDialog.stopLoadingAlertDialog();

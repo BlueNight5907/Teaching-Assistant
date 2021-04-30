@@ -114,7 +114,7 @@ public class AttendanceDAO {
     public void loadAllStudentInAttendance(DatabaseReference ref, ArrayList<String> studentList, ArrayList<StudentAttendInfor> attendInfors, Student_Adapter adapter, Teacher_attendance activity){
         if(studentList != null){
             for(String UUID : studentList){
-                ref.child("StudentStateList").child(UUID).addListenerForSingleValueEvent(new ValueEventListener() {
+                ref.child("studentStateList").child(UUID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.getValue() != null){
