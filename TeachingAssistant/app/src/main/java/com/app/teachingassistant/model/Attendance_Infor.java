@@ -1,6 +1,10 @@
 package com.app.teachingassistant.model;
 
+import com.app.teachingassistant.MainActivity;
+
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Attendance_Infor {
     private String name;
@@ -9,6 +13,7 @@ public class Attendance_Infor {
     private long endAt;
     private String type;
     private String keyID;
+    private Map<String,Object> StudentStateList;
     public Attendance_Infor(){
         this.name = "";
         this.describe ="";
@@ -16,14 +21,24 @@ public class Attendance_Infor {
         this.endAt = new Date().getTime();
         this.type = "manual";
         keyID = "";
+        this.StudentStateList = new HashMap<>();
     }
-    public Attendance_Infor(String name,String describe,long createAt,long endAt,String type,String keyID){
+    public Attendance_Infor(String name,String describe,long createAt,long endAt,String type,String keyID,Map<String,Object>StudentStateList){
         this.name = name;
         this.describe = describe;
         this.createAt = createAt;
         this.endAt = endAt;
         this.type = type;
         this.keyID = keyID;
+        this.StudentStateList = StudentStateList;
+    }
+
+    public Map<String, Object> getStudentStateList() {
+        return StudentStateList;
+    }
+
+    public void setStudentStateList(Map<String, Object> studentStateList) {
+        StudentStateList = studentStateList;
     }
 
     public String getKeyID() {

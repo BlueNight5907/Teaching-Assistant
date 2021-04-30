@@ -113,7 +113,7 @@ public class CreateAttendance_Manual extends AppCompatActivity {
                 }
                 long createAt = new Date().getTime();
                 String keyID = attendanceRef.push().getKey();
-                Attendance_Infor attendanceInfor = new Attendance_Infor(headerText,descText,createAt, createAt,"auto",keyID);
+                Attendance_Infor attendanceInfor = new Attendance_Infor(headerText,descText,createAt, createAt,"auto",keyID,null);
                 AttendanceDAO.getInstance().createAttendanceManual(attendanceRef,keyID,attendanceInfor,CreateAttendance_Manual.this);
             }
             @Override

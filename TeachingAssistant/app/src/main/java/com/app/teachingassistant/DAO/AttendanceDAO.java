@@ -27,6 +27,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AttendanceDAO {
     //Mẫu thiết kế singleton
@@ -49,8 +51,18 @@ public class AttendanceDAO {
         return instance;
     }
     public void createAttendanceManual(DatabaseReference dtb, String keyID , Attendance_Infor attendanceInfor, CreateAttendance_Manual activity){
-
-        dtb.child(keyID).setValue(attendanceInfor).addOnCompleteListener(new OnCompleteListener<Void>() {
+        Map<String,Object> attendInfors = new HashMap<>();
+        if(ClassDAO.getInstance().getCurrentClass().getStudentList() != null){
+            for(String UUID : ClassDAO.getInstance().getCurrentClass().getStudentList()){
+                StudentAttendInfor newAttendInfor = new StudentAttendInfor(UUID,-2);
+                attendInfors.put(UUID,newAttendInfor);
+            }
+        }
+        attendanceInfor.setStudentStateList(attendInfors);
+        Map<String,Object> map = new HashMap<>();
+        map.put(keyID,attendanceInfor);
+        //dtb.child(keyID).setValue(attendanceInfor)
+        dtb.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 activity.closeDialog();
@@ -130,8 +142,18 @@ public class AttendanceDAO {
 
     }
     public void createAttendanceAuto(DatabaseReference dtb, String keyID , Attendance_Infor attendanceInfor, CreateAttendance_Auto activity){
-
-        dtb.child(keyID).setValue(attendanceInfor).addOnCompleteListener(new OnCompleteListener<Void>() {
+        Map<String,Object> attendInfors = new HashMap<>();
+        if(ClassDAO.getInstance().getCurrentClass().getStudentList() != null){
+            for(String UUID : ClassDAO.getInstance().getCurrentClass().getStudentList()){
+                StudentAttendInfor newAttendInfor = new StudentAttendInfor(UUID,-2);
+                attendInfors.put(UUID,newAttendInfor);
+            }
+        }
+        attendanceInfor.setStudentStateList(attendInfors);
+        Map<String,Object> map = new HashMap<>();
+        map.put(keyID,attendanceInfor);
+        //dtb.child(keyID).setValue(attendanceInfor)
+        dtb.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 activity.closeDialog();

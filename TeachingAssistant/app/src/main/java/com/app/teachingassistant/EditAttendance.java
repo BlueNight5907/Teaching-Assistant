@@ -209,7 +209,7 @@ public class EditAttendance extends AppCompatActivity {
 
                 long createAt = AttendanceDAO.getInstance().getCurrentAttendance().getCreateAt();
                 String keyID = AttendanceDAO.getInstance().getCurrentAttendance().getKeyID();
-                Attendance_Infor attendanceInfor = new Attendance_Infor(headerText,descText,createAt, finalEndAt, finalType,keyID);
+                Attendance_Infor attendanceInfor = new Attendance_Infor(headerText,descText,createAt, finalEndAt, finalType,keyID,AttendanceDAO.getInstance().getCurrentAttendance().getStudentStateList());
                 map.put(keyID,attendanceInfor);
                 attendanceRef.updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
