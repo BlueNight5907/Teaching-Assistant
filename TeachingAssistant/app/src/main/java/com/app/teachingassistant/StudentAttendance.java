@@ -62,6 +62,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
+import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -79,12 +80,8 @@ public class StudentAttendance extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.student_attendance);
-
-
         userAvt = findViewById(R.id.user_logo_toolbar);
         userAvt.setVisibility(View.GONE);
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
@@ -165,6 +162,9 @@ public class StudentAttendance extends AppCompatActivity {
         long timeEndAt = AttendanceDAO.getInstance().getCurrentAttendance().getEndAt();
         Map<String,StudentAttendInfor> studentAttendInforList = (Map)AttendanceDAO.getInstance().getCurrentAttendance().getStudentStateList();
         studentAttendInfor = studentAttendInforList.get(AccountDAO.getInstance().getCurrentUser().getUUID());
+        if(studentAttendInfor == null){
+            studentAttendInfor = new StudentAttendInfor(AccountDAO.getInstance().getCurrentUser().getUUID(),-2);
+        }
         bindAttendaneState(studentAttendInfor.getState());
 
         if(now - timeCreate < 1* 1000 * 60 * 60 * 3){
