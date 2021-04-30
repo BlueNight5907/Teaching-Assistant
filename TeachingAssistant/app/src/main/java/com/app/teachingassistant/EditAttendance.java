@@ -201,9 +201,11 @@ public class EditAttendance extends AppCompatActivity {
                 for(DataSnapshot item: snapshot.getChildren()){
                     Attendance_Infor temp = item.getValue(Attendance_Infor.class);
                     if(temp.getName().equals(headerText)){
-                        loadingDialog.stopLoadingAlertDialog();
-                        Toast.makeText(EditAttendance.this,"Điểm danh với tên vừa nhập đã tồn tại, vui lòng đổi tên khác",Toast.LENGTH_SHORT).show();
-                        return;
+                        if(!temp.getKeyID().equals(AttendanceDAO.getInstance().getCurrentAttendance().getKeyID())){
+                            loadingDialog.stopLoadingAlertDialog();
+                            Toast.makeText(EditAttendance.this,"Điểm danh với tên vừa nhập đã tồn tại, vui lòng đổi tên khác",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                     }
                 }
 

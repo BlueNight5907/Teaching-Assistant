@@ -51,7 +51,7 @@ public class AttendanceDAO {
         return instance;
     }
     public void createAttendanceManual(DatabaseReference dtb, String keyID , Attendance_Infor attendanceInfor, CreateAttendance_Manual activity){
-        Map<String,Object> attendInfors = new HashMap<>();
+        Map<String,StudentAttendInfor> attendInfors = new HashMap<>();
         if(ClassDAO.getInstance().getCurrentClass().getStudentList() != null){
             for(String UUID : ClassDAO.getInstance().getCurrentClass().getStudentList()){
                 StudentAttendInfor newAttendInfor = new StudentAttendInfor(UUID,-2);
@@ -142,7 +142,7 @@ public class AttendanceDAO {
 
     }
     public void createAttendanceAuto(DatabaseReference dtb, String keyID , Attendance_Infor attendanceInfor, CreateAttendance_Auto activity){
-        Map<String,Object> attendInfors = new HashMap<>();
+        Map<String,StudentAttendInfor> attendInfors = new HashMap<>();
         if(ClassDAO.getInstance().getCurrentClass().getStudentList() != null){
             for(String UUID : ClassDAO.getInstance().getCurrentClass().getStudentList()){
                 StudentAttendInfor newAttendInfor = new StudentAttendInfor(UUID,-2);
