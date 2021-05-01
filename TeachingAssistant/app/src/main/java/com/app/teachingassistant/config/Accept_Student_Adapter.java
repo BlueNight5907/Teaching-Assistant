@@ -91,29 +91,19 @@ public class Accept_Student_Adapter extends RecyclerView.Adapter<Accept_Student_
             ignore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ignore.setVisibility(View.GONE);
-                    accept.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.VISIBLE);
                     Result result = ClassDAO.getInstance().removeStudentAttend(FirebaseDatabase.getInstance(),UUID,classCode);
                     if(!result.isError()){
                         ClassDAO.getInstance().getCurrentClass().getStudentToAttend().remove(position);
                         student_list.remove(position);
                         notifyDataSetChanged();
                     }
-                    else{
-                        ignore.setVisibility(View.VISIBLE);
-                        accept.setVisibility(View.VISIBLE);
-                        progressBar.setVisibility(View.GONE);
-                    }
+
 
                 }
             });
             accept.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ignore.setVisibility(View.GONE);
-                    accept.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.VISIBLE);
                     Map<String,Object> map = ClassDAO.getInstance().acceptStudentAttend(FirebaseDatabase.getInstance(),UUID,classCode);
                     Log.d("map", "onClick: "+map);
                     ClassDAO.getInstance().getCurrentClass().getStudentToAttend().remove(position);

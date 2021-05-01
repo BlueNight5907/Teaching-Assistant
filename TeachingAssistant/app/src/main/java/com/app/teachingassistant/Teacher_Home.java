@@ -224,7 +224,7 @@ public class Teacher_Home extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        userRef.child("ClassListCreated").addValueEventListener(valueEventListener);
+
 
     }
 
@@ -233,6 +233,7 @@ public class Teacher_Home extends AppCompatActivity {
         super.onResume();
         //Load các thông tin cần thiết
         loadAllInfor();
+        userRef.child("ClassListCreated").addValueEventListener(valueEventListener);
     }
 
     @Override

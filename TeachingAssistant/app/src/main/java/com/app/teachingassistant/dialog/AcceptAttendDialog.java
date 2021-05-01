@@ -98,8 +98,8 @@ public class AcceptAttendDialog extends DialogFragment {
                 Log.d("map", "onClick: "+map);
                 studentAttend.remove(position);
                 if(position < studentList.size()){
-                    studentList.remove(position);
                     fragment.addStdtoList(studentList.get(position));
+                    studentList.remove(position);
                 }
                 accept_student_adapter.notifyDataSetChanged();
             }

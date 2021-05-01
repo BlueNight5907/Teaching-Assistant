@@ -219,6 +219,8 @@ public class Student_Home_Fragment extends Fragment {
                 if(snapshot.getValue()!=null){
                     StudentBannedInfor data = snapshot.getValue(StudentBannedInfor.class);
                     if(data.getState() == -1){
+                        stateTxt.setText("Cấm thi");
+                        stateTxt.setTextColor(getResources().getColor(R.color.chi_gong));
 
                     }
                     else {

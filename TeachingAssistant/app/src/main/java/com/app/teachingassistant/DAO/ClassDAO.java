@@ -7,14 +7,18 @@ import androidx.annotation.NonNull;
 
 import com.app.teachingassistant.ChangeClassInfor;
 import com.app.teachingassistant.Teacher_attendance;
+import com.app.teachingassistant.config.Accept_Student_Adapter;
 import com.app.teachingassistant.config.ClassStatusAdapter;
 import com.app.teachingassistant.config.Student_Adapter;
 import com.app.teachingassistant.dialog.LoadingDialog;
+import com.app.teachingassistant.fragment.Student_People_Fragment;
+import com.app.teachingassistant.fragment.Teacher_People_Fragment;
 import com.app.teachingassistant.model.Class_Infor;
 import com.app.teachingassistant.model.Result;
 import com.app.teachingassistant.model.StudentAttendInfor;
 import com.app.teachingassistant.model.StudentBannedInfor;
 import com.app.teachingassistant.model.StudentBannedList;
+import com.app.teachingassistant.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;

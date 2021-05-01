@@ -133,6 +133,8 @@ public class StudentAttendance extends AppCompatActivity {
                     if(task.isSuccessful()){
                         makeToastLong("Điểm danh thành công");
                         studentAttendInfor.setState(1);
+                        stateTxt.setText("Đã điểm danh");
+                        stateTxt.setTextColor(getResources().getColor(R.color.mint_leaf));
                         acceptChangeState(studentAttendInfor);
 
                     }else {
@@ -248,6 +250,8 @@ public class StudentAttendance extends AppCompatActivity {
                         if(task.isSuccessful()){
                             makeToastLong("Hủy điểm danh thành công");
                             studentAttendInfor.setState(-2);
+                            stateTxt.setText("Chưa điểm danh");
+                            stateTxt.setTextColor(getResources().getColor(R.color.soothing_breeze));
                             acceptChangeState(studentAttendInfor);
 
                         }else {

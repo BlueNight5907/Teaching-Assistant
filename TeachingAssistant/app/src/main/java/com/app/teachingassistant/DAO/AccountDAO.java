@@ -72,6 +72,7 @@ public class AccountDAO {
     }
     public void updateProfiles(String UUID, User user, LoadingDialog loadingDialog, UserManage activity){
         Map<String,Object> map = new HashMap<>();
+        map.put("name",user.getName());
         map.put("gender",user.getGender());
         map.put("hasProfileUrl",user.isHasProfileUrl());
         map.put("sid",user.getSID());

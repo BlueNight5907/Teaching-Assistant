@@ -139,7 +139,6 @@ public class Student_List_In_TeacherView_Recycler_Adapter extends RecyclerView.A
                     loadingDialog.startLoadingAlertDialog();
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
                     ArrayList<String> students = ClassDAO.getInstance().getCurrentClass().getStudentList();
-                    Log.d("remove student", position +"onClick: "+students.toString());
                     students.remove(position);
                     Map<String,Object> map = new HashMap<>();
                     map.put("Class/"+ClassDAO.getInstance().getCurrentClass().getKeyID()+"/studentList",students);
