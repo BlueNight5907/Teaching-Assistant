@@ -49,6 +49,7 @@
         android:layout_marginTop="2dp"
         android:layout_marginEnd="4dp"
         android:text="new"
+        android:visibility="invisible"
         android:textColor="@color/chi_gong"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

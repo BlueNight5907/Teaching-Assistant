@@ -52,6 +52,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.teachingassistant.DAO.AccountDAO;
+import com.app.teachingassistant.Notification.AppNotification;
 import com.app.teachingassistant.config.Student_Attendance_List_Recycle_Adapter;
 import com.app.teachingassistant.config.Student_Home_Classlist_Recycle_Adapter;
 import com.app.teachingassistant.dialog.LoadingDialog;
@@ -100,10 +101,12 @@ public class UserManage extends AppCompatActivity {
     private String selectedImagePath;
     private boolean imageChange = false;
     private static final int PERMISSION_REQUEST_CODE = 100;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_infor);
+        AppNotification notification = new AppNotification(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // Sets the Toolbar to act as the ActionBar for this Activity window.
@@ -199,6 +202,12 @@ public class UserManage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 changeUserGender();
+            }
+        });
+        unSaveChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 

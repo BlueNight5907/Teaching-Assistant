@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.app.teachingassistant.DAO.AccountDAO;
+import com.app.teachingassistant.Notification.PushNotification;
 import com.app.teachingassistant.dialog.LoadingDialog;
 import com.app.teachingassistant.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,6 +46,7 @@ public class Login extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
+        stopNotification();
         loginBtn = findViewById(R.id.login);
         loginWithGGBtn = findViewById(R.id.login_with_gg);
         register = findViewById(R.id.register);
@@ -142,6 +144,7 @@ public class Login extends AppCompatActivity {
                     loadingDialog.stopLoadingAlertDialog();
                 }
                 else {
+                    startNotification();
                     Intent intent = new Intent(Login.this,MainActivity.class);
                     startActivity(intent);
                     loadingDialog.stopLoadingAlertDialog();
@@ -152,5 +155,14 @@ public class Login extends AppCompatActivity {
 
             }
         });
+    }
+    private void startNotification(){
+        Intent intent = new Intent(this, PushNotification.class);
+        intent.putExtra("UUID",FirebaseAuth.getInstance().getCurrentUser().getUid());
+        this.startService(intent);
+    }
+    private void stopNotification(){
+        Intent intent = new Intent(this, PushNotification.class);
+        this.stopService(intent);
     }
 }

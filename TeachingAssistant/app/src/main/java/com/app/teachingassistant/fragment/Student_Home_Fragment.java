@@ -159,7 +159,7 @@ public class Student_Home_Fragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot item:snapshot.getChildren()){
                     Attendance_Infor temp = item.getValue(Attendance_Infor.class);
-                    attendance_list.add(temp);
+                    attendance_list.add(0,temp);
                     student_attendance_list_recycle_adapter.notifyDataSetChanged();
                 }
             }

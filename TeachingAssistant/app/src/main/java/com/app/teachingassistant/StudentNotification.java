@@ -36,9 +36,15 @@ import com.app.teachingassistant.fragment.Student_Home_Fragment;
 import com.app.teachingassistant.fragment.Student_People_Fragment;
 import com.app.teachingassistant.model.Attendance_Infor;
 import com.app.teachingassistant.model.Class_Infor;
+import com.app.teachingassistant.model.NotificationInfor;
 import com.app.teachingassistant.model.Student_Notification_Infor;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -46,8 +52,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class StudentNotification extends AppCompatActivity {
     ActionBar actionBar;
-    private ArrayList<Student_Notification_Infor> notification_List  = new ArrayList<Student_Notification_Infor>();
+    private ArrayList<NotificationInfor> notification_List  = new ArrayList<NotificationInfor>();
     RecyclerView recyclerView;
+    Student_Notification_Adapter student_notification_adapter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,14 +72,13 @@ public class StudentNotification extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setTitle("Thông báo");
-        genMock();
-
         recyclerView = findViewById(R.id.notification_list);
-        Student_Notification_Adapter student_notification_adapter = new Student_Notification_Adapter(this,notification_List);
+        student_notification_adapter = new Student_Notification_Adapter(this,notification_List);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(student_notification_adapter);
+        loadList();
 
 
 
@@ -86,7 +92,6 @@ public class StudentNotification extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-
         return true;
     }
 
@@ -99,11 +104,36 @@ public class StudentNotification extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    private void genMock(){
-        for(int i = 0; i<10;i++){
-            notification_List.add(new Student_Notification_Infor());
-        }
-    }
+    public void loadList(){
+        FirebaseDatabase.getInstance().getReference("Notifications").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                NotificationInfor notificationInfor = snapshot.getValue(NotificationInfor.class);
+                if(notificationInfor != null){
+                    notification_List.add(notificationInfor);
+                    student_notification_adapter.notifyDataSetChanged();
+                }
+            }
 
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 }

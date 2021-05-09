@@ -26,6 +26,7 @@ import com.app.teachingassistant.DAO.AttendanceDAO;
 import com.app.teachingassistant.DAO.ClassDAO;
 import com.app.teachingassistant.config.Student_Adapter;
 import com.app.teachingassistant.dialog.LoadingDialog;
+import com.app.teachingassistant.model.NotificationInfor;
 import com.app.teachingassistant.model.StudentAttendInfor;
 import com.app.teachingassistant.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,9 +37,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -126,17 +129,27 @@ public class Teacher_attendance extends AppCompatActivity {
         Toast.makeText(this,message,Toast.LENGTH_LONG).show();
     }
     private void saveChange(){
+        long createAt = new Date().getTime();
+        String className = ClassDAO.getInstance().getCurrentClass().getClassName();
         loadingDialog.startLoadingAlertDialog();
         Map<String,Object> map = new HashMap<>();
         for(StudentAttendInfor item:attendInforsList){
-            map.put(item.getUUID(),item);
+            map.put("Attendances/"+ClassDAO.getInstance().getCurrentClass().getKeyID()+"/"+AttendanceDAO.getInstance().getCurrentAttendance().getKeyID()+"/studentStateList/"+item.getUUID(),item);
+            if(item.getState() < 0){
+                NotificationInfor notificationInfor = new NotificationInfor(createAt,className,0,"Bạn đã vắng học vào "+AttendanceDAO.getInstance().getCurrentAttendance().getName());
+                map.put("Notifications/"+item.getUUID()+"/"+AttendanceDAO.getInstance().getCurrentAttendance().getKeyID(),notificationInfor);
+            }
+            else{
+                map.put("Notifications/"+item.getUUID()+"/"+AttendanceDAO.getInstance().getCurrentAttendance().getKeyID(),null);
+            }
         }
-        attendRef.child(AttendanceDAO.getInstance().getCurrentAttendance().getKeyID()).child("studentStateList").updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+        FirebaseDatabase.getInstance().getReference().updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 loadingDialog.stopLoadingAlertDialog();
                 if(task.isSuccessful()){
                     makeToastLong("Lưu điểm danh thành công");
+                    finish();
                 }
                 else {
                     makeToastLong("Lưu điểm danh thất bại");

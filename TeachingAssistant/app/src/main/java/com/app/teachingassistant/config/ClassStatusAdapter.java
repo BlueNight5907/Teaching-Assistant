@@ -23,6 +23,7 @@ import com.app.teachingassistant.DAO.AttendanceDAO;
 import com.app.teachingassistant.DAO.ClassDAO;
 import com.app.teachingassistant.R;
 import com.app.teachingassistant.dialog.LoadingDialog;
+import com.app.teachingassistant.model.NotificationInfor;
 import com.app.teachingassistant.model.StudentAttendInfor;
 import com.app.teachingassistant.model.StudentBannedInfor;
 import com.app.teachingassistant.model.StudentBannedList;
@@ -37,6 +38,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -226,18 +228,26 @@ public class ClassStatusAdapter extends RecyclerView.Adapter<ClassStatusAdapter.
             OK.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    long createAt = new Date().getTime();
+                    String className = ClassDAO.getInstance().getCurrentClass().getClassName();
                     alert.dismiss();
                     loadingDialog.startLoadingAlertDialog();
+                    Map<String,Object> map = new HashMap<>();
                     if (preStatus == 0) {
                         ban_btn.setText("Hủy cấm thi");
+                        NotificationInfor notificationInfor = new NotificationInfor(createAt,className,1,"Bạn đã bị giáo viên lớp "+className+" cấm thi");
+                        map.put("Notifications/"+user.getUUID()+"/"+ClassDAO.getInstance().getCurrentClass().getKeyID(),notificationInfor);
                     }
                     else {
                         ban_btn.setText("Cấm thi");
+                        map.put("Notifications/"+user.getUUID()+"/"+ClassDAO.getInstance().getCurrentClass().getKeyID(),null);
                     }
-                    Map<String,Object> map = new HashMap<>();
-                    map.put(user.getUUID(),user);
 
-                    classRef.child(ClassDAO.getInstance().getCurrentClass().getKeyID()).child("studentBannedList").updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    map.put("Class/"+ClassDAO.getInstance().getCurrentClass().getKeyID()+"/studentBannedList/"+user.getUUID(),user);
+
+
+
+                    FirebaseDatabase.getInstance().getReference().updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             loadingDialog.stopLoadingAlertDialog();
