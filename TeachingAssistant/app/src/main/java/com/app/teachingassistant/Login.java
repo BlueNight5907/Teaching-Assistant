@@ -70,7 +70,7 @@ public class Login extends AppCompatActivity {
         loginWithGGBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
             }
         });
         register.setOnClickListener(new View.OnClickListener() {
