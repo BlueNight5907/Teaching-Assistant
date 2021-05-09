@@ -33,6 +33,7 @@
         android:text="Điểm danh buổi 10"
         android:textColor="@color/dracula_orchid"
         android:textSize="15dp"
+
         app:layout_constraintStart_toEndOf="@+id/std_attd_item_img"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,6 +62,7 @@
         android:textColor="@color/teal_700"
         android:textSize="15dp"
         android:layout_marginRight="10dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/more_option"
         app:layout_constraintTop_toTopOf="parent" />
