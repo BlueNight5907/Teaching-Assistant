@@ -70,8 +70,7 @@ public class Login extends AppCompatActivity {
         loginWithGGBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Login.this,Teacher_Home.class);
-                startActivity(intent);
+                
             }
         });
         register.setOnClickListener(new View.OnClickListener() {
